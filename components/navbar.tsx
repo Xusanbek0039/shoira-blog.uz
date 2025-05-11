@@ -16,7 +16,6 @@ export function Navbar() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
-  // Close menu when path changes
   useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
@@ -31,7 +30,7 @@ export function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-gray-100/90 dark:bg-gray-900/90 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="font-bold text-xl text-sky-600">
@@ -104,7 +103,7 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-50 bg-slate-950 dark:bg-slate-950 text-white flex flex-col animate-in slide-in-from-top-5">
+        <div className="md:hidden fixed inset-0 top-16 z-50 bg-gray-100 dark:bg-gray-900 text-white flex flex-col animate-in slide-in-from-top-5">
           <div className="container flex justify-between items-center py-4 border-b border-slate-800">
             <Link href="/" className="font-bold text-xl text-sky-600" onClick={toggleMenu}>
               Shoira-blog.uz
@@ -179,7 +178,6 @@ export function Navbar() {
               </>
             )}
 
-            {/* Input fields for article creation */}
             <div className="mt-6 space-y-4">
               <div>
                 <label className="text-sm text-slate-400 mb-1 block">Maqola sarlavhasi</label>
@@ -207,7 +205,6 @@ export function Navbar() {
             </div>
           </nav>
 
-          {/* Post button at the bottom */}
           <div className="border-t border-slate-800 p-6">
             <Button className="w-full bg-sky-600 hover:bg-sky-700 flex items-center justify-center gap-2">
               <PenLine className="h-5 w-5" />
@@ -215,7 +212,6 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Logo at the bottom */}
           <div className="border-t border-slate-800 p-6 flex justify-center">
             <Link href="/" className="font-bold text-xl text-sky-600" onClick={toggleMenu}>
               Shoira-blog.uz
