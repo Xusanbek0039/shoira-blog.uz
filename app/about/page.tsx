@@ -25,7 +25,7 @@ export default function AboutPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="flex justify-center lg:justify-end">
                 <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] rounded-full overflow-hidden border-4 border-sky-100 dark:border-sky-900">
-                  <Image src="/placeholder.svg?height=350&width=350" alt="Shoira" fill className="object-cover" />
+                  <Image src="https://husanbek-coder.uz/assets/images/image.png" alt="Shoira" fill className="object-cover" />
                 </div>
               </div>
               <div>
