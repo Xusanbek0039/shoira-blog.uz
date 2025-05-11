@@ -104,7 +104,7 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div style="background-color: blue;" className="md:hidden fixed inset-0 top-16 z-50 bg-slate-950 dark:bg-slate-950 text-white flex flex-col animate-in slide-in-from-top-5">
+        <div className="md:hidden fixed inset-0 top-16 z-50 bg-slate-950 dark:bg-slate-950 text-white flex flex-col animate-in slide-in-from-top-5">
           <div className="container flex justify-between items-center py-4 border-b border-slate-800">
             <Link href="/" className="font-bold text-xl text-sky-600" onClick={toggleMenu}>
               Shoira-blog.uz
