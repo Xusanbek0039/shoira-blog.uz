@@ -10,6 +10,6 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
+    print("DataBase bilan a'loqa o'rnatildi!")
 except Exception as e:
     print(e)
