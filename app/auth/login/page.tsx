@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -8,14 +10,8 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useAuth } from "@/hooks/use-auth"
 import { Eye, EyeOff } from "lucide-react"
 
 export default function LoginPage() {
@@ -27,6 +23,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState(false)
 
   const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,15 +31,12 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      // Faqat bitta to‘g‘ri email va parolni qabul qiladi
-      if (email === "itpark0071@gmail.com" && password === "Xusanbek0039") {
-        setSuccess(true)
-        setTimeout(() => {
-          router.push("/")
-        }, 1500)
-      } else {
-        throw new Error("Noto‘g‘ri email yoki parol")
-      }
+      await login(email, password)
+      // Show success message and redirect after a short delay
+      setSuccess(true)
+      setTimeout(() => {
+        router.push("/")
+      }, 1500)
     } catch (err) {
       setError("Login xatosi yuz berdi. Iltimos, ma'lumotlarni tekshiring.")
     } finally {
@@ -99,17 +93,11 @@ export default function LoginPage() {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    <span className="sr-only">
-                      {showPassword ? "Parolni yashirish" : "Parolni ko'rsatish"}
-                    </span>
+                    <span className="sr-only">{showPassword ? "Parolni yashirish" : "Parolni ko'rsatish"}</span>
                   </Button>
                 </div>
               </div>
-              <Button
-                type="submit"
-                className="w-full bg-sky-600 hover:bg-sky-700"
-                disabled={isLoading}
-              >
+              <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700" disabled={isLoading}>
                 {isLoading ? "Kirish..." : "Kirish"}
               </Button>
             </form>
