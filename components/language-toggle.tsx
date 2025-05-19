@@ -8,7 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 // Flag image URLs
 const FLAGS = {
-  en: "https://sjc.microlink.io/GWEipgQATeo66nOnb58wiltNFjx6xejZHA8_8AVh9SUWRfwIIEoOvOFPNZoNsr1ubdXPwVMB8WFAHu8CZ2vJkQ.jpeg",
+  en: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png",
   uz: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnZzwWkWhQKBKwX2xU_jDAVZZtO-6vgudnw&s",
   ru: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Russia-flag.png",
 }
@@ -55,31 +55,40 @@ export function LanguageToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[200px] rounded-md p-1 shadow-md">
-        <DropdownMenuItem
-          onClick={() => setLanguage("en")}
-          className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "en" ? "bg-accent/50" : ""}`}
-        >
-          <img src={FLAGS.en || "/placeholder.svg"} alt="English" className="h-5 w-5 rounded-full object-cover" />
-          <span>English</span>
-          <span className="ml-auto text-xs text-muted-foreground">(EN)</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setLanguage("ru")}
-          className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "ru" ? "bg-accent/50" : ""}`}
-        >
-          <img src={FLAGS.ru || "/placeholder.svg"} alt="Russian" className="h-5 w-5 rounded-full object-cover" />
-          <span>Русский</span>
-          <span className="ml-auto text-xs text-muted-foreground">(RU)</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setLanguage("uz")}
-          className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "uz" ? "bg-accent/50" : ""}`}
-        >
-          <img src={FLAGS.uz || "/placeholder.svg"} alt="Uzbek" className="h-5 w-5 rounded-full object-cover" />
-          <span>Uzbek</span>
-          <span className="ml-auto text-xs text-muted-foreground">(UZ)</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+  <DropdownMenuItem
+    onClick={() => setLanguage("en")}
+    className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "en" ? "bg-accent/50" : ""}`}
+  >
+    <div className="h-6 w-6 overflow-hidden rounded-full border border-muted">
+      <img src={FLAGS.en || "/placeholder.svg"} alt="English" className="h-full w-full object-cover" />
+    </div>
+    <span>English</span>
+    <span className="ml-auto text-xs text-muted-foreground">(EN)</span>
+  </DropdownMenuItem>
+
+  <DropdownMenuItem
+    onClick={() => setLanguage("ru")}
+    className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "ru" ? "bg-accent/50" : ""}`}
+  >
+    <div className="h-6 w-6 overflow-hidden rounded-full border border-muted">
+      <img src={FLAGS.ru || "/placeholder.svg"} alt="Russian" className="h-full w-full object-cover" />
+    </div>
+    <span>Русский</span>
+    <span className="ml-auto text-xs text-muted-foreground">(RU)</span>
+  </DropdownMenuItem>
+
+  <DropdownMenuItem
+    onClick={() => setLanguage("uz")}
+    className={`flex cursor-pointer items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-accent ${language === "uz" ? "bg-accent/50" : ""}`}
+  >
+    <div className="h-6 w-6 overflow-hidden rounded-full border border-muted">
+      <img src={FLAGS.uz || "/placeholder.svg"} alt="Uzbek" className="h-full w-full object-cover" />
+    </div>
+    <span>Uzbek</span>
+    <span className="ml-auto text-xs text-muted-foreground">(UZ)</span>
+  </DropdownMenuItem>
+</DropdownMenuContent>
+
     </DropdownMenu>
   )
 }

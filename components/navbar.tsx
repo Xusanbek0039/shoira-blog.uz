@@ -20,7 +20,7 @@ import LogoutConfirmation from "@/components/logout-confirmation"
 
 // Flag image URLs
 const FLAGS = {
-  en: "https://sjc.microlink.io/GWEipgQATeo66nOnb58wiltNFjx6xejZHA8_8AVh9SUWRfwIIEoOvOFPNZoNsr1ubdXPwVMB8WFAHu8CZ2vJkQ.jpeg",
+  en: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png",
   uz: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnZzwWkWhQKBKwX2xU_jDAVZZtO-6vgudnw&s",
   ru: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Russia-flag.png",
 }
@@ -68,11 +68,11 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm transition-all ${
-        scrolled ? "shadow-sm" : ""
+      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
+        scrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-background/80 backdrop-blur-sm"
       }`}
     >
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="container flex h-16 items-center justify-between px-4 transition-all duration-300">
         <Link href="/" className="flex items-center text-xl font-bold">
           <img
             src="https://github.com/Xusanbek0039/shoira-blog.uz/blob/main/images/logo.png?raw=true"

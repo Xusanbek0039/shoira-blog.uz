@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/auth-context"
 import { useLanguage } from "@/context/language-context"
 import ProfileInfo from "@/components/profile-info"
@@ -53,22 +53,35 @@ export default function ProfilePage() {
             <CardDescription>{t("profile.description")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="info">{t("profile.infoTab")}</TabsTrigger>
-                <TabsTrigger value="password">{t("profile.passwordTab")}</TabsTrigger>
-                <TabsTrigger value="posts">{t("profile.postsTab")}</TabsTrigger>
-              </TabsList>
-              <TabsContent value="info" className="mt-6">
-                <ProfileInfo user={user} />
-              </TabsContent>
-              <TabsContent value="password" className="mt-6">
-                <PasswordChange />
-              </TabsContent>
-              <TabsContent value="posts" className="mt-6">
-                <UserPosts />
-              </TabsContent>
-            </Tabs>
+            <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 mb-6">
+              <Button
+                variant={activeTab === "info" ? "default" : "outline"}
+                onClick={() => setActiveTab("info")}
+                className="w-full justify-start sm:justify-center"
+              >
+                {t("profile.infoTab")}
+              </Button>
+              <Button
+                variant={activeTab === "password" ? "default" : "outline"}
+                onClick={() => setActiveTab("password")}
+                className="w-full justify-start sm:justify-center"
+              >
+                {t("profile.passwordTab")}
+              </Button>
+              <Button
+                variant={activeTab === "posts" ? "default" : "outline"}
+                onClick={() => setActiveTab("posts")}
+                className="w-full justify-start sm:justify-center"
+              >
+                {t("profile.postsTab")}
+              </Button>
+            </div>
+
+            <div className="mt-6">
+              {activeTab === "info" && <ProfileInfo user={user} />}
+              {activeTab === "password" && <PasswordChange />}
+              {activeTab === "posts" && <UserPosts />}
+            </div>
           </CardContent>
         </Card>
       </motion.div>
