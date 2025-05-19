@@ -1,15 +1,23 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation" // Agar 'app' router ishlatayotgan bo‘lsangiz
+// import { useRouter } from "next/router" // Agar 'pages' router bo‘lsa, shu qatorni oching
 import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/auth-context"
 import { useLanguage } from "@/context/language-context"
 import ProfileInfo from "@/components/profile-info"
 import PasswordChange from "@/components/password-change"
 import UserPosts from "@/components/user-posts"
+import UserPortfolio from "@/components/user-portfolio"
 import TypingDotsLoader from "@/components/typing-dots-loader"
 
 export default function ProfilePage() {
@@ -19,7 +27,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("info")
 
   useEffect(() => {
-    // Redirect if not authenticated and not loading
+    // Agar foydalanuvchi autentifikatsiyadan o‘tmagan bo‘lsa, login sahifasiga yo‘naltiramiz
     if (!isLoading && !isAuthenticated) {
       router.push("/login")
     }
@@ -28,15 +36,35 @@ export default function ProfilePage() {
   if (isLoading) {
     return (
       <div className="container flex h-[calc(100vh-200px)] items-center justify-center">
-        <div className="text-center">
-          <TypingDotsLoader size="lg" />
-        </div>
+        <TypingDotsLoader size="lg" />
       </div>
     )
   }
 
   if (!isAuthenticated) {
-    return null // Will redirect in useEffect
+    return null // Redirekt bo‘ladi, hech narsa render qilinmaydi
+  }
+
+  const tabs = [
+    { key: "info", label: t("profile.infoTab") },
+    { key: "password", label: t("profile.passwordTab") },
+    { key: "posts", label: t("profile.postsTab") },
+    { key: "portfolio", label: t("profile.portfolioTab") },
+  ]
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "info":
+        return <ProfileInfo user={user} />
+      case "password":
+        return <PasswordChange />
+      case "posts":
+        return <UserPosts />
+      case "portfolio":
+        return <UserPortfolio />
+      default:
+        return null
+    }
   }
 
   return (
@@ -53,35 +81,20 @@ export default function ProfilePage() {
             <CardDescription>{t("profile.description")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 mb-6">
-              <Button
-                variant={activeTab === "info" ? "default" : "outline"}
-                onClick={() => setActiveTab("info")}
-                className="w-full justify-start sm:justify-center"
-              >
-                {t("profile.infoTab")}
-              </Button>
-              <Button
-                variant={activeTab === "password" ? "default" : "outline"}
-                onClick={() => setActiveTab("password")}
-                className="w-full justify-start sm:justify-center"
-              >
-                {t("profile.passwordTab")}
-              </Button>
-              <Button
-                variant={activeTab === "posts" ? "default" : "outline"}
-                onClick={() => setActiveTab("posts")}
-                className="w-full justify-start sm:justify-center"
-              >
-                {t("profile.postsTab")}
-              </Button>
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+              {tabs.map((tab) => (
+                <Button
+                  key={tab.key}
+                  variant={activeTab === tab.key ? "default" : "outline"}
+                  onClick={() => setActiveTab(tab.key)}
+                  className="w-full sm:w-auto flex-1 capitalize"
+                >
+                  {tab.label}
+                </Button>
+              ))}
             </div>
 
-            <div className="mt-6">
-              {activeTab === "info" && <ProfileInfo user={user} />}
-              {activeTab === "password" && <PasswordChange />}
-              {activeTab === "posts" && <UserPosts />}
-            </div>
+            <div className="mt-6">{renderTabContent()}</div>
           </CardContent>
         </Card>
       </motion.div>

@@ -34,13 +34,13 @@ api.interceptors.response.use(
     // Check if error is a network error
     if (error.message === "Network Error") {
       console.error("Network error - API server might be down")
-      return Promise.reject(new Error("Could not connect to the server. Check your internet connection."))
+      return Promise.reject(new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring."))
     }
 
     // Check if error has response
     if (error.response) {
       console.error("API Error Response:", error.response.status, error.response.data)
-      return Promise.reject(new Error(error.response.data.message || "Server error"))
+      return Promise.reject(new Error(error.response.data.message || "Server xatosi"))
     }
 
     return Promise.reject(error)
@@ -52,13 +52,13 @@ const handleError = (error: any) => {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    throw new Error(error.response.data.message || "Server error")
+    throw new Error(error.response.data.message || "Server xatosi")
   } else if (error.request) {
     // The request was made but no response was received
-    throw new Error("Could not connect to the server. Check your internet connection.")
+    throw new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring.")
   } else {
     // Something happened in setting up the request that triggered an Error
-    throw new Error("Error sending request")
+    throw new Error("So'rov yuborishda xatolik")
   }
 }
 
@@ -178,6 +178,80 @@ export const updateArticle = async (
 export const deleteArticle = async (id: string) => {
   try {
     const response = await api.delete(`/api/articles/${id}`)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+// Portfolio API calls
+export const fetchPortfolioItems = async () => {
+  try {
+    const response = await api.get("/api/portfolio")
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const fetchPortfolioItemById = async (id: string) => {
+  try {
+    const response = await api.get(`/api/portfolio/${id}`)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const getUserPortfolioItems = async () => {
+  try {
+    const response = await api.get("/api/portfolio/user")
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const createPortfolio = async (portfolioData: {
+  title: string
+  content: string
+  image?: string
+  category: string
+}) => {
+  try {
+    const response = await api.post("/api/portfolio", portfolioData)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const updatePortfolio = async (
+  id: string,
+  portfolioData: {
+    title: string
+    content: string
+    image?: string
+    category: string
+  },
+) => {
+  try {
+    const response = await api.put(`/api/portfolio/${id}`, portfolioData)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const deletePortfolio = async (id: string) => {
+  try {
+    const response = await api.delete(`/api/portfolio/${id}`)
     return response.data
   } catch (error) {
     handleError(error)

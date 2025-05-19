@@ -20,7 +20,7 @@ import LogoutConfirmation from "@/components/logout-confirmation"
 
 // Flag image URLs
 const FLAGS = {
-  en: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png",
+  en: "https://sjc.microlink.io/GWEipgQATeo66nOnb58wiltNFjx6xejZHA8_8AVh9SUWRfwIIEoOvOFPNZoNsr1ubdXPwVMB8WFAHu8CZ2vJkQ.jpeg",
   uz: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnZzwWkWhQKBKwX2xU_jDAVZZtO-6vgudnw&s",
   ru: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Russia-flag.png",
 }
@@ -122,7 +122,18 @@ export default function Navbar() {
                     {t("user.newArticle")}
                   </Link>
                 </DropdownMenuItem>
-
+                <DropdownMenuItem asChild>
+                  <Link href="/create-portfolio" className="flex items-center gap-2">
+                    <Briefcase className="h-4 w-4" />
+                    {t("user.newPortfolio")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/notifications" className="flex items-center gap-2">
+                    <Bell className="h-4 w-4" />
+                    {t("user.notifications")}
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <LogoutConfirmation />
               </DropdownMenuContent>
@@ -199,7 +210,26 @@ export default function Navbar() {
                       {t("user.newArticle")}
                     </Button>
                   </Link>
-
+                  <Link href="/create-portfolio">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
+                      size="lg"
+                    >
+                      <Briefcase className="mr-3 h-5 w-5" />
+                      {t("user.newPortfolio")}
+                    </Button>
+                  </Link>
+                  <Link href="/notifications">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
+                      size="lg"
+                    >
+                      <Bell className="mr-3 h-5 w-5" />
+                      {t("user.notifications")}
+                    </Button>
+                  </Link>
                   <LogoutConfirmation variant="mobile" />
                 </>
               ) : (

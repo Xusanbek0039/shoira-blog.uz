@@ -14,7 +14,8 @@ const translations = {
   en: {
     // Locale
     locale: "en-US",
-    "auth.namePlaceholder":"Your full name!",    
+    "auth.namePlaceholder":"Your full name!",
+    "user.newPortfolio":"New portfolio upload",    
     // Navigation
     "nav.home": "Home",
     "nav.about": "About Me",
@@ -22,7 +23,7 @@ const translations = {
     "nav.articles": "Articles",
     "nav.portfolio": "Portfolio",
     "nav.contact": "Contact",
-
+    "portfolio.noCategoryItems":"Portfolio is empty, no items found!",
     // User menu
     "user.profile": "Profile",
     "user.newArticle": "New Article",
@@ -183,10 +184,41 @@ const translations = {
     "auth.noAccount":"If you don't have an account, click this button",
     "auth.registering":"Registering...",
     "auth.haveAccount":"Do you have an account?",
+
+    "portfolio.createNew": "Create New Portfolio Item",
+    "portfolio.createDescription": "Add a new portfolio item by filling out the form below",
+    "portfolio.title": "Title",
+    "portfolio.titlePlaceholder": "Portfolio item title",
+    "portfolio.category": "Category",
+    "portfolio.selectCategory": "Select a category",
+    "portfolio.categoryWeb": "Web Development",
+    "portfolio.categoryMobile": "Mobile Development",
+    "portfolio.categoryDesign": "Design",
+    "portfolio.imageUrl": "Image URL",
+    "portfolio.description": "Description",
+    "portfolio.descriptionPlaceholder": "Describe your portfolio item...",
+    "portfolio.save": "Save Portfolio Item",
+    "portfolio.createSuccess": "Portfolio item successfully created! Redirecting...",
   },
   uz: {
     // Locale
     locale: "uz-UZ",
+    "user.newPortfolio":"Portfolio yuklash",    
+    // Portfolio
+    "portfolio.createNew": "Yangi Portfolio Yaratish",
+    "portfolio.createDescription": "Quyidagi formani to'ldirib yangi portfolio yarating",
+    "portfolio.title": "Sarlavha",
+    "portfolio.titlePlaceholder": "Portfolio sarlavhasi",
+    "portfolio.category": "Kategoriya",
+    "portfolio.selectCategory": "Kategoriyani tanlang",
+    "portfolio.categoryWeb": "Web Dasturlash",
+    "portfolio.categoryMobile": "Mobil Dasturlash",
+    "portfolio.categoryDesign": "Dizayn",
+    "portfolio.imageUrl": "Rasm URL",
+    "portfolio.description": "Tavsif",
+    "portfolio.descriptionPlaceholder": "Portfolio haqida ma'lumot...",
+    "portfolio.save": "Portfolioni Saqlash",
+    "portfolio.createSuccess": "Portfolio muvaffaqiyatli yaratildi! Yo'naltirilmoqda...",
     "auth.registering":"Ro'yxatdan o'tilmoqda...",
     "auth.loginDescription":"Hisobni tekshirish uchun malumotlarni kiriting",
     "auth.namePlaceholder":"To'lliq ism familiyangiz!",
@@ -339,7 +371,7 @@ const translations = {
     "auth.loginSuccess": "Muvaffaqiyatli kirildi!",
     "auth.logoutSuccess": "Muvaffaqiyatli chiqildi!",
     "auth.registerSuccess": "Muvaffaqiyatli ro'yxatdan o'tildi!",
-
+    "portfolio.noCategoryItems":"Portfoli bo'sh xech qanday ma'lumot topilmadi!",
     // Notifications
     "notification.title": "Bildirishnomalar",
     "notification.description": "So'nggi bildirishnomalar va yangilanishlarni ko'rish",
@@ -362,6 +394,26 @@ const translations = {
   ru: {
     // Locale
     locale: "ru-RU",
+    "user.newPortfolio":"Новая загрузка портфолио",
+    // Portfolio
+    "portfolio.noCategoryItems":"Портфолио пусто, элементы не найдены!",
+    "portfolio.createNew": "Создать Новое Портфолио",
+    "portfolio.createDescription": "Добавьте новый элемент портфолио, заполнив форму ниже",
+    "portfolio.title": "Заголовок",
+    "portfolio.titlePlaceholder": "Заголовок портфолио",
+    "portfolio.category": "Категория",
+    "portfolio.selectCategory": "Выберите категорию",
+    "portfolio.categoryWeb": "Веб-разработка",
+    "portfolio.categoryMobile": "Мобильная разработка",
+    "portfolio.categoryDesign": "Дизайн",
+    "portfolio.imageUrl": "URL изображения",
+    "portfolio.description": "Описание",
+    "portfolio.descriptionPlaceholder": "Опишите ваше портфолио...",
+    "portfolio.save": "Сохранить Портфолио",
+    "portfolio.createSuccess": "Портфолио успешно создано! Перенаправление...",
+
+
+
     "auth.haveAccount":"У вас есть аккаунт?",
     "auth.registering":"Регистрация...",
     "auth.noAccount":"Если у вас нет учетной записи, нажмите эту кнопку",

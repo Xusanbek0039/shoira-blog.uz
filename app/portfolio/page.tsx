@@ -1,76 +1,53 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { fetchPortfolioItems } from "@/utils/api"
+import { useLanguage } from "@/context/language-context"
+import TypingDotsLoader from "@/components/typing-dots-loader"
+import PortfolioItemCard from "@/components/portfolio-item-card"
 
-// Mock portfolio data
-const portfolioItems = {
-  web: [
-    {
-      id: 1,
-      title: "E-commerce Websayt",
-      description: "Online do'kon uchun zamonaviy web sayt",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2023",
-    },
-    {
-      id: 2,
-      title: "Blog Platformasi",
-      description: "Kontent boshqarish tizimi bilan blog platformasi",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2022",
-    },
-    {
-      id: 3,
-      title: "Kompaniya Websayti",
-      description: "IT kompaniyasi uchun korporativ web sayt",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2022",
-    },
-  ],
-  mobile: [
-    {
-      id: 4,
-      title: "Fitness Ilovasi",
-      description: "Mashqlar va ovqatlanish rejimini kuzatish uchun mobil ilova",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2023",
-    },
-    {
-      id: 5,
-      title: "To-do List Ilovasi",
-      description: "Vazifalarni boshqarish uchun mobil ilova",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2021",
-    },
-  ],
-  design: [
-    {
-      id: 6,
-      title: "Brend Identifikatsiyasi",
-      description: "Startup uchun to'liq brend identifikatsiyasi",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2023",
-    },
-    {
-      id: 7,
-      title: "UI/UX Dizayn",
-      description: "Mobil ilova uchun foydalanuvchi interfeysi dizayni",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2022",
-    },
-    {
-      id: 8,
-      title: "Logo Dizayn",
-      description: "Turli kompaniyalar uchun logo dizaynlari",
-      image: "/placeholder.svg?height=400&width=600",
-      year: "2021",
-    },
-  ],
+// Define the Portfolio item type
+interface PortfolioItem {
+  _id: string
+  title: string
+  content: string
+  image: string
+  category: string
+  author: string
+  createdAt: string
 }
 
 export default function PortfolioPage() {
+  const { t } = useLanguage()
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    const getPortfolioItems = async () => {
+      try {
+        const data = await fetchPortfolioItems()
+        setPortfolioItems(data)
+      } catch (error: any) {
+        console.error("Error fetching portfolio items:", error)
+        setError(error.message || "Failed to load portfolio items")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getPortfolioItems()
+  }, [])
+
+  // Group portfolio items by category
+  const portfolioByCategory = {
+    web: portfolioItems.filter((item) => item.category === "web"),
+    mobile: portfolioItems.filter((item) => item.category === "mobile"),
+    design: portfolioItems.filter((item) => item.category === "design"),
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <motion.div
@@ -79,65 +56,64 @@ export default function PortfolioPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Portfolio</h1>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          Mening eng yaxshi ishlarim to'plami. Web saytlar, mobil ilovalar va dizayn ishlari.
-        </p>
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">{t("nav.portfolio")}</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">{t("portfolio.description")}</p>
       </motion.div>
 
-      <Tabs defaultValue="web" className="mx-auto max-w-5xl">
-        <TabsList className="mb-8 grid w-full grid-cols-3">
-          <TabsTrigger value="web">Web Saytlar</TabsTrigger>
-          <TabsTrigger value="mobile">Mobil Ilovalar</TabsTrigger>
-          <TabsTrigger value="design">Dizayn</TabsTrigger>
-        </TabsList>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-12">
+          <TypingDotsLoader size="lg" />
+        </div>
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center py-12">
+          <p className="text-lg text-red-500">{error}</p>
+        </div>
+      ) : (
+        <Tabs defaultValue="web" className="mx-auto max-w-5xl">
+          <TabsList className="mb-8 grid w-full grid-cols-3">
+            <TabsTrigger value="web">{t("portfolio.categoryWeb")}</TabsTrigger>
+            <TabsTrigger value="mobile">{t("portfolio.categoryMobile")}</TabsTrigger>
+            <TabsTrigger value="design">{t("portfolio.categoryDesign")}</TabsTrigger>
+          </TabsList>
 
-        {Object.entries(portfolioItems).map(([category, items]) => (
-          <TabsContent key={category} value={category}>
-            <motion.div
-              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.1,
-                  },
-                },
-              }}
-              initial="hidden"
-              animate="visible"
-            >
-              {items.map((item) => (
+          {Object.entries(portfolioByCategory).map(([category, items]) => (
+            <TabsContent key={category} value={category}>
+              {items.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <p className="text-lg text-muted-foreground">{t("portfolio.noCategoryItems")}</p>
+                </div>
+              ) : (
                 <motion.div
-                  key={item.id}
+                  className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
                   variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: {
+                        staggerChildren: 0.1,
+                      },
+                    },
                   }}
+                  initial="hidden"
+                  animate="visible"
                 >
-                  <Card className="overflow-hidden">
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.title}
-                        className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                      />
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="mb-1 flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">{item.title}</h3>
-                        <span className="text-sm text-muted-foreground">{item.year}</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </CardContent>
-                  </Card>
+                  {items.map((item) => (
+                    <motion.div
+                      key={item._id}
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+                      }}
+                    >
+                      <PortfolioItemCard item={item} />
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
-          </TabsContent>
-        ))}
-      </Tabs>
+              )}
+            </TabsContent>
+          ))}
+        </Tabs>
+      )}
     </div>
   )
 }
