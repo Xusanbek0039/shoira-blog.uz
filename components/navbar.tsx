@@ -35,7 +35,7 @@ import LogoutConfirmation from "@/components/logout-confirmation"
 
 // Flag image URLs
 const FLAGS = {
-  en: "https://sjc.microlink.io/GWEipgQATeo66nOnb58wiltNFjx6xejZHA8_8AVh9SUWRfwIIEoOvOFPNZoNsr1ubdXPwVMB8WFAHu8CZ2vJkQ.jpeg",
+  en: "https://upload.wikimedia.org/wikipedia/commons/d/de/Flag_of_the_United_States.png",
   uz: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnZzwWkWhQKBKwX2xU_jDAVZZtO-6vgudnw&s",
   ru: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Russia-flag.png",
 }
