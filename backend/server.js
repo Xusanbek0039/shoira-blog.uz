@@ -25,33 +25,32 @@ app.use(
     credentials: true,
   }),
 )
-app.use(express.json())
+app.use(express.json()) // JSON body parser
 
 // MongoDB Connection
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB ga muvaffaqiyatli ulandi"))
   .catch((err) => console.error("MongoDB ga ulanishda xatolik:", err))
 
-// Log environment variables (without sensitive data)
-console.log("Server running with:")
-console.log("PORT:", PORT)
-console.log("CORS_ORIGIN:", CORS_ORIGIN)
-console.log("MONGODB_URI:", MONGODB_URI ? "Connected" : "Not configured")
-console.log("JWT_SECRET:", JWT_SECRET ? "Configured" : "Not configured")
-
-// Auth middleware
+// Auth middleware - foydalanuvchini token orqali tekshiradi
 const auth = async (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "")
-
-    if (!token) {
+    // Header dan tokenni olish
+    const authHeader = req.header("Authorization")
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "Avtorizatsiya talab qilinadi" })
     }
+    const token = authHeader.replace("Bearer ", "")
 
+    // Tokenni tekshirish
     const decoded = jwt.verify(token, JWT_SECRET)
-    const user = await User.findById(decoded.id)
 
+    // Foydalanuvchini topish
+    const user = await User.findById(decoded.id)
     if (!user) {
       return res.status(401).json({ message: "Foydalanuvchi topilmadi" })
     }
@@ -59,37 +58,41 @@ const auth = async (req, res, next) => {
     req.user = user
     next()
   } catch (error) {
-    res.status(401).json({ message: "Avtorizatsiya xatosi" })
+    return res.status(401).json({ message: "Avtorizatsiya xatosi" })
   }
 }
 
-// Routes
+// ROUTES
 
-// Register user
+// Ro'yxatdan o'tish (Register)
 app.post("/api/users/register", async (req, res) => {
   try {
     const { name, email, password } = req.body
 
-    // Check if user already exists
-    let user = await User.findOne({ email })
-    if (user) {
+    // Inputni tekshirish (basic)
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Barcha maydonlar to‘ldirilishi kerak" })
+    }
+
+    // Email orqali foydalanuvchi borligini tekshirish
+    const userExists = await User.findOne({ email })
+    if (userExists) {
       return res.status(400).json({ message: "Foydalanuvchi allaqachon mavjud" })
     }
 
-    // Hash password
+    // Parolni hash qilish
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    // Create new user
-    user = new User({
+    // Yangi foydalanuvchi yaratish
+    const user = new User({
       name,
       email,
       password: hashedPassword,
     })
-
     await user.save()
 
-    // Generate JWT token
+    // JWT token yaratish
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "30d" })
 
     res.status(201).json({
@@ -106,24 +109,25 @@ app.post("/api/users/register", async (req, res) => {
   }
 })
 
-// Login user
+// Kirish (Login)
 app.post("/api/users/login", async (req, res) => {
   try {
     const { email, password } = req.body
 
-    // Check if user exists
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email va parol kerak" })
+    }
+
     const user = await User.findOne({ email })
     if (!user) {
       return res.status(400).json({ message: "Noto'g'ri email yoki parol" })
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
       return res.status(400).json({ message: "Noto'g'ri email yoki parol" })
     }
 
-    // Generate JWT token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "30d" })
 
     res.json({
@@ -140,20 +144,24 @@ app.post("/api/users/login", async (req, res) => {
   }
 })
 
-// Update user profile
+// Profilni yangilash (protected)
 app.put("/api/users/profile", auth, async (req, res) => {
   try {
     const { name, email } = req.body
 
-    // Check if email is already taken by another user
-    if (email !== req.user.email) {
+    if (!name && !email) {
+      return res.status(400).json({ message: "Hech qanday ma'lumot kiritilmadi" })
+    }
+
+    // Emailni boshqa foydalanuvchi ishlatayotganligini tekshirish
+    if (email && email !== req.user.email) {
       const existingUser = await User.findOne({ email })
       if (existingUser) {
         return res.status(400).json({ message: "Bu email allaqachon ishlatilmoqda" })
       }
     }
 
-    // Update user
+    // Foydalanuvchini yangilash
     const user = await User.findById(req.user._id)
     if (name) user.name = name
     if (email) user.email = email
@@ -173,23 +181,25 @@ app.put("/api/users/profile", auth, async (req, res) => {
   }
 })
 
-// Change password
+// Parolni o'zgartirish (protected)
 app.put("/api/users/password", auth, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body
 
-    // Check current password
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Ikkala parol ham kiritilishi kerak" })
+    }
+
     const user = await User.findById(req.user._id)
+
     const isMatch = await bcrypt.compare(currentPassword, user.password)
     if (!isMatch) {
       return res.status(400).json({ message: "Joriy parol noto'g'ri" })
     }
 
-    // Hash new password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(newPassword, salt)
 
-    // Update password
     user.password = hashedPassword
     await user.save()
 
@@ -200,7 +210,7 @@ app.put("/api/users/password", auth, async (req, res) => {
   }
 })
 
-// Get all articles
+// Barcha maqolalarni olish (public)
 app.get("/api/articles", async (req, res) => {
   try {
     const articles = await Article.find().sort({ createdAt: -1 })
@@ -211,7 +221,7 @@ app.get("/api/articles", async (req, res) => {
   }
 })
 
-// Get user's articles
+// Foydalanuvchining maqolalari (protected)
 app.get("/api/articles/user", auth, async (req, res) => {
   try {
     const articles = await Article.find({ user: req.user._id }).sort({ createdAt: -1 })
@@ -222,15 +232,13 @@ app.get("/api/articles/user", auth, async (req, res) => {
   }
 })
 
-// Get single article
+// Bitta maqolani olish (public)
 app.get("/api/articles/:id", async (req, res) => {
   try {
     const article = await Article.findById(req.params.id)
-
     if (!article) {
       return res.status(404).json({ message: "Maqola topilmadi" })
     }
-
     res.json(article)
   } catch (error) {
     console.error("Get article error:", error)
@@ -238,15 +246,19 @@ app.get("/api/articles/:id", async (req, res) => {
   }
 })
 
-// Create article (protected)
+// Yangi maqola yaratish (protected)
 app.post("/api/articles", auth, async (req, res) => {
   try {
     const { title, content, image } = req.body
 
+    if (!title || !content) {
+      return res.status(400).json({ message: "Sarlavha va kontent majburiy" })
+    }
+
     const newArticle = new Article({
       title,
       content,
-      image,
+      image: image || "",
       author: req.user.name,
       user: req.user._id,
     })
@@ -259,7 +271,7 @@ app.post("/api/articles", auth, async (req, res) => {
   }
 })
 
-// Update article (protected)
+// Maqolani yangilash (protected)
 app.put("/api/articles/:id", auth, async (req, res) => {
   try {
     const { title, content, image } = req.body
@@ -269,15 +281,14 @@ app.put("/api/articles/:id", auth, async (req, res) => {
       return res.status(404).json({ message: "Maqola topilmadi" })
     }
 
-    // Check if user owns the article
+    // Maqola egasi ekanligini tekshirish
     if (article.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: "Ruxsat berilmagan" })
     }
 
-    // Update article
-    article.title = title
-    article.content = content
-    article.image = image
+    if (title) article.title = title
+    if (content) article.content = content
+    if (image !== undefined) article.image = image
 
     await article.save()
     res.json(article)
@@ -287,7 +298,7 @@ app.put("/api/articles/:id", auth, async (req, res) => {
   }
 })
 
-// Delete article (protected)
+// Maqolani o'chirish (protected)
 app.delete("/api/articles/:id", auth, async (req, res) => {
   try {
     const article = await Article.findById(req.params.id)
@@ -296,7 +307,6 @@ app.delete("/api/articles/:id", auth, async (req, res) => {
       return res.status(404).json({ message: "Maqola topilmadi" })
     }
 
-    // Check if user owns the article
     if (article.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: "Ruxsat berilmagan" })
     }
@@ -309,12 +319,12 @@ app.delete("/api/articles/:id", auth, async (req, res) => {
   }
 })
 
-// Health check endpoint
+// Server sog‘ligi (health check)
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Server is running" })
+  res.json({ status: "ok", message: "Server ishga tayyor" })
 })
 
-// Start server
+// Serverni ishga tushirish
 app.listen(PORT, () => {
   console.log(`Server ${PORT} portda ishga tushdi`)
 })
