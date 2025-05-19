@@ -3,21 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  Menu,
-  X,
-  Home,
-  User,
-  Briefcase,
-  BookOpen,
-  Library,
-  Mail,
-  FileText,
-  Sun,
-  Moon,
-  Laptop,
-  Bell,
-} from "lucide-react"
+import { Menu, X, Home, User, Briefcase, BookOpen, Library, Mail, FileText, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -242,105 +228,6 @@ export default function Navbar() {
                   </Link>
                 </div>
               )}
-
-              <div className="mt-4 rounded-lg border border-slate-700 bg-slate-800 p-4">
-                <p className="mb-3 text-sm font-medium text-slate-100">{t("theme.light")}</p>
-                <div className="grid grid-cols-3 gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
-                    onClick={() => document.documentElement.classList.remove("dark")}
-                  >
-                    <Sun className="h-5 w-5" />
-                    <span className="text-xs">{t("theme.light")}</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
-                    onClick={() => document.documentElement.classList.add("dark")}
-                  >
-                    <Moon className="h-5 w-5" />
-                    <span className="text-xs">{t("theme.dark")}</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
-                    onClick={() => {
-                      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                        document.documentElement.classList.add("dark")
-                      } else {
-                        document.documentElement.classList.remove("dark")
-                      }
-                    }}
-                  >
-                    <Laptop className="h-5 w-5" />
-                    <span className="text-xs">{t("theme.system")}</span>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-lg border border-slate-700 bg-slate-800 p-4">
-                <p className="mb-3 text-sm font-medium text-slate-100">{t("lang.select")}</p>
-                <div className="space-y-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
-                      language === "en" ? "border-primary" : "border-slate-700"
-                    }`}
-                    onClick={() => setLanguage("en")}
-                  >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={FLAGS.en || "/placeholder.svg"}
-                        alt="English"
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                      <span>English</span>
-                    </div>
-                    <span className="text-xs text-slate-400">(EN)</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
-                      language === "ru" ? "border-primary" : "border-slate-700"
-                    }`}
-                    onClick={() => setLanguage("ru")}
-                  >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={FLAGS.ru || "/placeholder.svg"}
-                        alt="Russian"
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                      <span>Русский</span>
-                    </div>
-                    <span className="text-xs text-slate-400">(RU)</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
-                      language === "uz" ? "border-primary" : "border-slate-700"
-                    }`}
-                    onClick={() => setLanguage("uz")}
-                  >
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={FLAGS.uz || "/placeholder.svg"}
-                        alt="Uzbek"
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                      <span>Uzbek</span>
-                    </div>
-                    <span className="text-xs text-slate-400">(UZ)</span>
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
