@@ -3,12 +3,14 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { BookOpen } from "lucide-react"
 import ArticleCard from "@/components/article-card"
 import { fetchArticles } from "@/utils/api"
 import type { Article } from "@/types"
+import { useLanguage } from "@/context/language-context"
+import TypingDotsLoader from "@/components/typing-dots-loader"
 
 export default function Home() {
+  const { t } = useLanguage()
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -51,7 +53,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Welcome to Shoira Abdurasulova's Blog
+          {t("home.welcome") || "Shoira blogiga xush kelibsiz"}
         </motion.h1>
         <motion.p
           className="mx-auto max-w-2xl text-muted-foreground"
@@ -59,7 +61,8 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Here I share my thoughts, projects, and experiences. Follow the blog for new articles and interesting information.
+          {t("home.description") ||
+            "Bu yerda men o'z fiklarim, loyihalarim va tajribalarim bilan o'rtoqlashaman. Yangi maqolalar va qiziqarli ma'lumotlar uchun blogni kuzatib boring."}
         </motion.p>
         <motion.div
           className="mt-8 flex flex-wrap justify-center gap-4"
@@ -71,50 +74,28 @@ export default function Home() {
             href="/articles"
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            View Articles
+            {t("home.viewArticles") || "Maqolalarni ko'rish"}
           </Link>
           <Link
             href="/about"
             className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            About Me
+            {t("home.aboutMe") || "Men haqimda"}
           </Link>
         </motion.div>
       </motion.section>
 
       <section className="py-12">
         <div className="mb-12 text-center">
-          <h2 className="mb-2 text-3xl font-bold">Latest Articles</h2>
-          <p className="text-muted-foreground">A collection of the newest and most interesting articles</p>
+          <h2 className="mb-2 text-3xl font-bold">{t("home.latestArticles") || "So'nggi maqolalar"}</h2>
+          <p className="text-muted-foreground">
+            {t("home.latestArticlesDescription") || "Eng so'nggi va qiziqarli maqolalar to'plami"}
+          </p>
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-            >
-              <BookOpen className="h-16 w-16 text-primary" />
-            </motion.div>
-            <motion.p
-              className="mt-4 text-lg font-medium text-muted-foreground"
-              animate={{
-                opacity: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            >
-              Loading articles...
-            </motion.p>
+            <TypingDotsLoader size="lg" />
           </div>
         ) : (
           <motion.div
@@ -134,7 +115,7 @@ export default function Home() {
             href="/articles"
             className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            View All Articles
+            {t("home.viewAllArticles") || "Barcha maqolalarni ko'rish"}
           </Link>
         </div>
       </section>

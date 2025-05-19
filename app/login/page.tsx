@@ -13,10 +13,12 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { loginUser } from "@/utils/api"
+import { useLanguage } from "@/context/language-context"
 
 export default function LoginPage() {
   const router = useRouter()
   const { login } = useAuth()
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -39,7 +41,7 @@ export default function LoginPage() {
       login(data.token, data.user)
       router.push("/")
     } catch (err: any) {
-      setError(err.message || "An error occurred during login")
+      setError(err.message || t("auth.loginError"))
     } finally {
       setLoading(false)
     }
@@ -55,8 +57,8 @@ export default function LoginPage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
-            <CardDescription>Enter your credentials to access your account</CardDescription>
+            <CardTitle className="text-2xl">{t("user.login")}</CardTitle>
+            <CardDescription>{t("auth.loginDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -72,14 +74,14 @@ export default function LoginPage() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder={t("contact.emailPlaceholder")}
                     value={formData.email}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("auth.password")}</Label>
                   <Input
                     id="password"
                     name="password"
@@ -91,16 +93,16 @@ export default function LoginPage() {
                   />
                 </div>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Logging in..." : "Login"}
+                  {loading ? t("auth.loggingIn") : t("user.login")}
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
+              {t("auth.noAccount")}{" "}
               <Link href="/register" className="font-medium text-primary underline-offset-4 hover:underline">
-                Register
+                {t("user.register")}
               </Link>
             </p>
           </CardFooter>

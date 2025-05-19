@@ -1,29 +1,21 @@
 export function checkPasswordStrength(password: string): number {
-  let strength = 0
+  if (!password) return 0
 
-  if (password.length >= 6) {
-    strength += 20
-  }
+  let score = 0
 
-  if (password.length >= 8) {
-    strength += 20
-  }
+  // Length check
+  if (password.length >= 8) score += 20
+  if (password.length >= 12) score += 10
 
-  if (/[A-Z]/.test(password)) {
-    strength += 20
-  }
+  // Complexity checks
+  if (/[a-z]/.test(password)) score += 10 // Has lowercase
+  if (/[A-Z]/.test(password)) score += 15 // Has uppercase
+  if (/[0-9]/.test(password)) score += 15 // Has number
+  if (/[^a-zA-Z0-9]/.test(password)) score += 20 // Has special character
 
-  if (/[a-z]/.test(password)) {
-    strength += 10
-  }
+  // Variety check
+  const variety = new Set(password).size
+  score += Math.min(variety * 2, 10)
 
-  if (/[0-9]/.test(password)) {
-    strength += 15
-  }
-
-  if (/[^A-Za-z0-9]/.test(password)) {
-    strength += 15
-  }
-
-  return Math.min(strength, 100)
+  return Math.min(score, 100)
 }

@@ -1,38 +1,13 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { BookOpen } from "lucide-react"
+import TypingDotsLoader from "@/components/typing-dots-loader"
 
 export default function ArticlePageLoading() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8 flex flex-col items-center justify-center">
-          <motion.div
-            animate={{
-              rotate: [0, 360],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-          >
-            <BookOpen className="h-16 w-16 text-primary" />
-          </motion.div>
-          <motion.p
-            className="mt-4 text-lg font-medium text-muted-foreground"
-            animate={{
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-            }}
-          >
-            Loading article...
-          </motion.p>
+          <TypingDotsLoader size="lg" />
         </div>
 
         <div className="space-y-4">

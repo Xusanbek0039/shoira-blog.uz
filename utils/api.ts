@@ -1,21 +1,51 @@
 import axios from "axios"
 
 // API URL - backend server manzili
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://shoira-blog-uz-api.onrender.com"
+
+console.log("Using API URL:", API_URL)
 
 // Create axios instance
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 10000, // 10 seconds timeout
 })
 
 // Add request interceptor to add token to requests
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token")
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
+
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("API Error:", error)
+
+    // Check if error is a network error
+    if (error.message === "Network Error") {
+      console.error("Network error - API server might be down")
+      return Promise.reject(new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring."))
+    }
+
+    // Check if error has response
+    if (error.response) {
+      console.error("API Error Response:", error.response.status, error.response.data)
+      return Promise.reject(new Error(error.response.data.message || "Server xatosi"))
+    }
+
+    return Promise.reject(error)
+  },
+)
 
 // Error handling helper
 const handleError = (error: any) => {
@@ -25,7 +55,7 @@ const handleError = (error: any) => {
     throw new Error(error.response.data.message || "Server xatosi")
   } else if (error.request) {
     // The request was made but no response was received
-    throw new Error("Serverga ulanib bo'lmadi")
+    throw new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring.")
   } else {
     // Something happened in setting up the request that triggered an Error
     throw new Error("So'rov yuborishda xatolik")
@@ -155,5 +185,20 @@ export const deleteArticle = async (id: string) => {
   }
 }
 
-// Log API URL for debugging
-console.log("API URL:", API_URL)
+// Check API connection
+export const checkApiConnection = async () => {
+  try {
+    // First try the root endpoint
+    await api.get("/")
+    return true
+  } catch (rootError) {
+    try {
+      // If root fails, try the health endpoint
+      await api.get("/api/health")
+      return true
+    } catch (healthError) {
+      console.error("API connection check failed:", healthError)
+      return false
+    }
+  }
+}

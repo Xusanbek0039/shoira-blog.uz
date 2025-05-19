@@ -1,6 +1,8 @@
 "use client"
 
-import React, { useState } from "react"
+import type React from "react"
+
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,8 +11,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Mail, Phone, MapPin } from "lucide-react"
+import { useLanguage } from "@/context/language-context"
 
 export default function ContactPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,49 +39,22 @@ export default function ContactPage() {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      const response = await fetch("https://api.resent.email/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer re_ctXPhJYn_MjESqB5gZkSim5CRtUkrVxJE",
-        },
-        body: JSON.stringify({
-          from: formData.email,
-          to: "info@shoira-blog.uz",  // Siz qaysi emailga jo'natmoqchi bo'lsangiz
-          subject: formData.subject,
-          html: `
-            <p><strong>Name:</strong> ${formData.name}</p>
-            <p><strong>Email:</strong> ${formData.email}</p>
-            <p><strong>Message:</strong></p>
-            <p>${formData.message}</p>
-          `,
-        }),
-      })
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`)
-      }
+    setStatus({
+      type: "success",
+      message: t("contact.successMessage"),
+    })
 
-      setStatus({
-        type: "success",
-        message: "Your message has been sent successfully! I'll get back to you soon.",
-      })
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    })
 
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      })
-    } catch (error) {
-      setStatus({
-        type: "error",
-        message: "Something went wrong while sending your message. Please try again later.",
-      })
-    } finally {
-      setLoading(false)
-    }
+    setLoading(false)
   }
 
   return (
@@ -88,10 +65,8 @@ export default function ContactPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Contact</h1>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          Have questions? Contact me and I'll be happy to help you.
-        </p>
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">{t("nav.contact")}</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">{t("contact.description")}</p>
       </motion.div>
 
       <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
@@ -102,8 +77,8 @@ export default function ContactPage() {
         >
           <Card>
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>You can contact me via the following information</CardDescription>
+              <CardTitle>{t("contact.contactInfo")}</CardTitle>
+              <CardDescription>{t("contact.contactInfoDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
@@ -117,7 +92,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Phone</p>
+                  <p className="text-sm font-medium">{t("contact.phone")}</p>
                   <p className="text-sm text-muted-foreground">+998 90 123 45 67</p>
                 </div>
               </div>
@@ -125,13 +100,13 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Address</p>
-                  <p className="text-sm text-muted-foreground">Tashkent, Uzbekistan</p>
+                  <p className="text-sm font-medium">{t("contact.address")}</p>
+                  <p className="text-sm text-muted-foreground">{t("contact.addressValue")}</p>
                 </div>
               </div>
 
               <div className="mt-6 h-64 overflow-hidden rounded-lg bg-muted">
-                <img src="https://github.com/Xusanbek0039/shoira-blog.uz/blob/main/images/shoira_photo.png?raw=true" alt="Image" className="h-full w-full object-cover" />
+                <img src="/placeholder.svg?height=300&width=500" alt="Map" className="h-full w-full object-cover" />
               </div>
             </CardContent>
           </Card>
@@ -144,8 +119,8 @@ export default function ContactPage() {
         >
           <Card>
             <CardHeader>
-              <CardTitle>Send a Message</CardTitle>
-              <CardDescription>Fill out the form and I'll get back to you soon</CardDescription>
+              <CardTitle>{t("contact.sendMessage")}</CardTitle>
+              <CardDescription>{t("contact.sendMessageDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               {status.type && (
@@ -156,13 +131,13 @@ export default function ContactPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">{t("contact.name")}</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Your name"
+                    placeholder={t("contact.namePlaceholder")}
                     required
                   />
                 </div>
@@ -175,38 +150,38 @@ export default function ContactPage() {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="your@email.com"
+                    placeholder={t("contact.emailPlaceholder")}
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject">{t("contact.subject")}</Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Message subject"
+                    placeholder={t("contact.subjectPlaceholder")}
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message">{t("contact.message")}</Label>
                   <Textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Write your message..."
+                    placeholder={t("contact.messagePlaceholder")}
                     className="min-h-[120px]"
                     required
                   />
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Sending..." : "Send"}
+                  {loading ? t("contact.sending") : t("contact.send")}
                 </Button>
               </form>
             </CardContent>

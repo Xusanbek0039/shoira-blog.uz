@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import type { User } from "@/types"
+import { useNotification } from "@/context/notification-context"
 
 type AuthContextType = {
   user: User | null
@@ -9,6 +10,7 @@ type AuthContextType = {
   isLoading: boolean
   login: (token: string, user: User) => void
   logout: () => void
+  updateUser: (user: User) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -16,6 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const { addNotification } = useNotification()
 
   useEffect(() => {
     // Check if user is logged in on initial load
@@ -39,12 +42,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("token", token)
     localStorage.setItem("user", JSON.stringify(userData))
     setUser(userData)
+    addNotification("success", "auth.loginSuccess")
   }
 
   const logout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
     setUser(null)
+  }
+
+  const updateUser = (userData: User) => {
+    localStorage.setItem("user", JSON.stringify(userData))
+    setUser(userData)
+    addNotification("success", "profile.updateSuccess")
   }
 
   return (
@@ -55,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading,
         login,
         logout,
+        updateUser,
       }}
     >
       {children}

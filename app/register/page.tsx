@@ -15,10 +15,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { registerUser } from "@/utils/api"
 import { checkPasswordStrength } from "@/utils/password-strength"
+import { useLanguage } from "@/context/language-context"
+import { useNotification } from "@/context/notification-context"
 
 export default function RegisterPage() {
   const router = useRouter()
   const { login } = useAuth()
+  const { t } = useLanguage()
+  const { addNotification } = useNotification()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -45,9 +49,9 @@ export default function RegisterPage() {
   }
 
   const getPasswordStrengthText = () => {
-    if (passwordStrength < 30) return "Weak"
-    if (passwordStrength < 60) return "Medium"
-    return "Strong"
+    if (passwordStrength < 30) return t("password.weak")
+    if (passwordStrength < 60) return t("password.medium")
+    return t("password.strong")
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,12 +59,12 @@ export default function RegisterPage() {
     setError("")
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
+      setError(t("password.mismatch"))
       return
     }
 
     if (passwordStrength < 30) {
-      setError("Password is too weak. Please choose a stronger password.")
+      setError(t("password.tooWeak"))
       return
     }
 
@@ -73,9 +77,10 @@ export default function RegisterPage() {
         password: formData.password,
       })
       login(data.token, data.user)
+      addNotification("success", "auth.registerSuccess")
       router.push("/")
     } catch (err: any) {
-      setError(err.message || "An error occurred during registration")
+      setError(err.message || t("auth.registerError"))
     } finally {
       setLoading(false)
     }
@@ -91,10 +96,8 @@ export default function RegisterPage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Register</CardTitle>
-            <CardDescription>
-              Enter your information to create a new account (editing your information later is not possible)
-            </CardDescription>
+            <CardTitle className="text-2xl">{t("user.register")}</CardTitle>
+            <CardDescription>{t("auth.registerDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -105,12 +108,12 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">{t("profile.name")}</Label>
                   <Input
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="Your name"
+                    placeholder={t("auth.namePlaceholder")}
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -122,14 +125,14 @@ export default function RegisterPage() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder={t("contact.emailPlaceholder")}
                     value={formData.email}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t("auth.password")}</Label>
                   <Input
                     id="password"
                     name="password"
@@ -143,7 +146,7 @@ export default function RegisterPage() {
                   {formData.password && (
                     <div className="mt-2">
                       <div className="mb-1 flex items-center justify-between">
-                        <span className="text-xs">Password strength:</span>
+                        <span className="text-xs">{t("password.strength")}:</span>
                         <span className="text-xs font-medium">{getPasswordStrengthText()}</span>
                       </div>
                       <Progress value={passwordStrength} className={`h-2 w-full ${getPasswordStrengthColor()}`} />
@@ -151,7 +154,7 @@ export default function RegisterPage() {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword">{t("password.confirm")}</Label>
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -164,16 +167,16 @@ export default function RegisterPage() {
                   />
                 </div>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Registering..." : "Register"}
+                  {loading ? t("auth.registering") : t("user.register")}
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
+              {t("auth.haveAccount")}{" "}
               <Link href="/login" className="font-medium text-primary underline-offset-4 hover:underline">
-                Login
+                {t("user.login")}
               </Link>
             </p>
           </CardFooter>
