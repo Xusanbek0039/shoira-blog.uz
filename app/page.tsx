@@ -51,7 +51,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Shoira blogiga xush kelibsiz
+          Welcome to Shoira Abdurasulova's Blog
         </motion.h1>
         <motion.p
           className="mx-auto max-w-2xl text-muted-foreground"
@@ -59,8 +59,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Bu yerda men o'z fiklarim, loyihalarim va tajribalarim bilan o'rtoqlashaman. Yangi maqolalar va qiziqarli
-          ma'lumotlar uchun blogni kuzatib boring.
+          Here I share my thoughts, projects, and experiences. Follow the blog for new articles and interesting information.
         </motion.p>
         <motion.div
           className="mt-8 flex flex-wrap justify-center gap-4"
@@ -72,21 +71,21 @@ export default function Home() {
             href="/articles"
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            Maqolalarni ko'rish
+            View Articles
           </Link>
           <Link
             href="/about"
             className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            Men haqimda
+            About Me
           </Link>
         </motion.div>
       </motion.section>
 
       <section className="py-12">
         <div className="mb-12 text-center">
-          <h2 className="mb-2 text-3xl font-bold">So'nggi maqolalar</h2>
-          <p className="text-muted-foreground">Eng so'nggi va qiziqarli maqolalar to'plami</p>
+          <h2 className="mb-2 text-3xl font-bold">Latest Articles</h2>
+          <p className="text-muted-foreground">A collection of the newest and most interesting articles</p>
         </div>
 
         {loading ? (
@@ -114,7 +113,7 @@ export default function Home() {
                 repeatType: "reverse",
               }}
             >
-              Maqolalar yuklanmoqda...
+              Loading articles...
             </motion.p>
           </div>
         ) : (
@@ -135,7 +134,7 @@ export default function Home() {
             href="/articles"
             className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
           >
-            Barcha maqolalarni ko'rish
+            View All Articles
           </Link>
         </div>
       </section>
