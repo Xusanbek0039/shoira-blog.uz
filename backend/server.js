@@ -29,12 +29,9 @@ app.use(express.json()) // JSON body parser
 
 // MongoDB Connection
 mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGODB_URI)
   .then(() => console.log("MongoDB ga muvaffaqiyatli ulandi"))
-  .catch((err) => console.error("MongoDB ga ulanishda xatolik:", err))
+  .catch((err) => console.error("MongoDB ga ulanishda xatolik:", err));
 
 // Auth middleware - foydalanuvchini token orqali tekshiradi
 const auth = async (req, res, next) => {
