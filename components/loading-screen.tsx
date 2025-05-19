@@ -68,7 +68,7 @@ export default function LoadingScreen() {
             repeatType: "reverse",
           }}
         >
-          Iltimos biroz kuting...
+          Page is loading, please wait...
         </motion.p>
         <div className="mt-4 flex space-x-2">
           <motion.div

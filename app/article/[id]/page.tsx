@@ -38,7 +38,7 @@ export default function ArticlePage() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-2xl font-bold">Maqola topilmadi</h1>
+          <h1 className="text-2xl font-bold">The site creator has not posted any articles yet!</h1>
         </div>
       </div>
     )

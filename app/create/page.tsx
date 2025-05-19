@@ -57,7 +57,7 @@ export default function CreateArticlePage() {
         router.push("/articles")
       }, 2000)
     } catch (err: any) {
-      setError(err.message || "Maqola yaratishda xatolik yuz berdi")
+      setError(err.message || "Error occurred while creating the article")
     } finally {
       setLoading(false)
     }
@@ -77,8 +77,8 @@ export default function CreateArticlePage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Yangi maqola yaratish</CardTitle>
-            <CardDescription>Yangi maqola yaratish uchun quyidagi formani to'ldiring</CardDescription>
+            <CardTitle className="text-2xl">Create New Article</CardTitle>
+            <CardDescription>Fill out the form below to create a new article</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -89,24 +89,24 @@ export default function CreateArticlePage() {
 
             {success && (
               <Alert className="mb-4">
-                <AlertDescription>Maqola muvaffaqiyatli yaratildi! Yo'naltirilmoqda...</AlertDescription>
+                <AlertDescription>Article created successfully! Redirecting...</AlertDescription>
               </Alert>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Sarlavha</Label>
+                <Label htmlFor="title">Title</Label>
                 <Input
                   id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="Maqola sarlavhasi"
+                  placeholder="Article title"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image">Rasm URL</Label>
+                <Label htmlFor="image">Image URL</Label>
                 <Input
                   id="image"
                   name="image"
@@ -116,19 +116,19 @@ export default function CreateArticlePage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="content">Matn</Label>
+                <Label htmlFor="content">Content</Label>
                 <Textarea
                   id="content"
                   name="content"
                   value={formData.content}
                   onChange={handleChange}
-                  placeholder="Maqola matni..."
+                  placeholder="Write the article content..."
                   className="min-h-[200px]"
                   required
                 />
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Saqlanmoqda..." : "Maqolani saqlash"}
+                {loading ? "Saving..." : "Save Article"}
               </Button>
             </form>
           </CardContent>

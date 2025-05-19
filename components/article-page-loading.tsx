@@ -31,7 +31,7 @@ export default function ArticlePageLoading() {
               repeatType: "reverse",
             }}
           >
-            Maqola yuklanmoqda...
+            Loading article...
           </motion.p>
         </div>
 

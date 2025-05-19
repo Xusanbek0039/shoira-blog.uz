@@ -39,7 +39,7 @@ export default function LoginPage() {
       login(data.token, data.user)
       router.push("/")
     } catch (err: any) {
-      setError(err.message || "Login jarayonida xatolik yuz berdi")
+      setError(err.message || "An error occurred during login")
     } finally {
       setLoading(false)
     }
@@ -55,8 +55,8 @@ export default function LoginPage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Kirish</CardTitle>
-            <CardDescription>Hisobingizga kirish uchun ma'lumotlaringizni kiriting</CardDescription>
+            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardDescription>Enter your credentials to access your account</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -79,7 +79,7 @@ export default function LoginPage() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="password">Parol</Label>
+                  <Label htmlFor="password">Password</Label>
                   <Input
                     id="password"
                     name="password"
@@ -91,16 +91,16 @@ export default function LoginPage() {
                   />
                 </div>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Kirish..." : "Kirish"}
+                  {loading ? "Logging in..." : "Login"}
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
-              Hisobingiz yo'qmi?{" "}
+              Don't have an account?{" "}
               <Link href="/register" className="font-medium text-primary underline-offset-4 hover:underline">
-                Ro'yxatdan o'tish
+                Register
               </Link>
             </p>
           </CardFooter>

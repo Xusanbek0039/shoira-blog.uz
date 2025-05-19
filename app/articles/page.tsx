@@ -44,9 +44,9 @@ export default function ArticlesPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Maqolalar</h1>
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Articles</h1>
         <p className="mx-auto max-w-2xl text-muted-foreground">
-          Eng so'nggi va qiziqarli maqolalar to'plami. Web dasturlash, dizayn va texnologiyalar haqida.
+          The latest and most interesting collection of articles. About web development, design, and technology.
         </p>
       </motion.div>
 
@@ -75,7 +75,7 @@ export default function ArticlesPage() {
               repeatType: "reverse",
             }}
           >
-            Maqolalar yuklanmoqda...
+            Loading articles...
           </motion.p>
         </div>
       ) : (

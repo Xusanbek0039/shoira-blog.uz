@@ -45,9 +45,9 @@ export default function RegisterPage() {
   }
 
   const getPasswordStrengthText = () => {
-    if (passwordStrength < 30) return "Zaif"
-    if (passwordStrength < 60) return "O'rtacha"
-    return "Kuchli"
+    if (passwordStrength < 30) return "Weak"
+    if (passwordStrength < 60) return "Medium"
+    return "Strong"
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,12 +55,12 @@ export default function RegisterPage() {
     setError("")
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Parollar mos kelmadi")
+      setError("Passwords do not match")
       return
     }
 
     if (passwordStrength < 30) {
-      setError("Parol juda zaif. Kuchliroq parol tanlang.")
+      setError("Password is too weak. Please choose a stronger password.")
       return
     }
 
@@ -75,7 +75,7 @@ export default function RegisterPage() {
       login(data.token, data.user)
       router.push("/")
     } catch (err: any) {
-      setError(err.message || "Ro'yxatdan o'tish jarayonida xatolik yuz berdi")
+      setError(err.message || "An error occurred during registration")
     } finally {
       setLoading(false)
     }
@@ -91,8 +91,10 @@ export default function RegisterPage() {
       >
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Ro'yxatdan o'tish</CardTitle>
-            <CardDescription>Yangi hisob yaratish uchun ma'lumotlaringizni kiriting</CardDescription>
+            <CardTitle className="text-2xl">Register</CardTitle>
+            <CardDescription>
+              Enter your information to create a new account (editing your information later is not possible)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -103,12 +105,12 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Ism</Label>
+                  <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="Ismingiz"
+                    placeholder="Your name"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -127,7 +129,7 @@ export default function RegisterPage() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="password">Parol</Label>
+                  <Label htmlFor="password">Password</Label>
                   <Input
                     id="password"
                     name="password"
@@ -141,7 +143,7 @@ export default function RegisterPage() {
                   {formData.password && (
                     <div className="mt-2">
                       <div className="mb-1 flex items-center justify-between">
-                        <span className="text-xs">Parol xavfsizligi:</span>
+                        <span className="text-xs">Password strength:</span>
                         <span className="text-xs font-medium">{getPasswordStrengthText()}</span>
                       </div>
                       <Progress value={passwordStrength} className={`h-2 w-full ${getPasswordStrengthColor()}`} />
@@ -149,7 +151,7 @@ export default function RegisterPage() {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="confirmPassword">Parolni tasdiqlang</Label>
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -162,16 +164,16 @@ export default function RegisterPage() {
                   />
                 </div>
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Ro'yxatdan o'tilmoqda..." : "Ro'yxatdan o'tish"}
+                  {loading ? "Registering..." : "Register"}
                 </Button>
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
-              Hisobingiz bormi?{" "}
+              Already have an account?{" "}
               <Link href="/login" className="font-medium text-primary underline-offset-4 hover:underline">
-                Kirish
+                Login
               </Link>
             </p>
           </CardFooter>

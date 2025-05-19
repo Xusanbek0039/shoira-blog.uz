@@ -13,8 +13,7 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
 export const metadata: Metadata = {
   title: "Shoira-blog.uz",
-  description: "Zamonaviy blog platformasi",
-    generator: 'v0.dev'
+  description: "Zamonaviy blog platformasi"
 }
 
 export default function RootLayout({

@@ -34,12 +34,12 @@ export default function ApiStatus() {
       {status === "online" ? (
         <Alert className="bg-green-100 dark:bg-green-900/20">
           <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-          <AlertDescription className="text-sm">API serverga ulanish mavjud</AlertDescription>
+          <AlertDescription className="text-sm">You are connected to the site.</AlertDescription>
         </Alert>
       ) : (
         <Alert variant="destructive">
           <XCircle className="h-4 w-4" />
-          <AlertDescription className="text-sm">API serverga ulanib bo'lmadi</AlertDescription>
+          <AlertDescription className="text-sm">Unable to connect to the site.</AlertDescription>
         </Alert>
       )}
     </div>

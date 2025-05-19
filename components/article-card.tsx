@@ -43,7 +43,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <CardFooter className="p-4 pt-0">
           <Link href={`/article/${article._id}`} className="w-full">
             <Button variant="outline" className="w-full">
-              Ko'proq o'qish
+              Read more
             </Button>
           </Link>
         </CardFooter>

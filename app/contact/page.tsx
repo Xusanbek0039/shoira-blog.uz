@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -37,22 +35,49 @@ export default function ContactPage() {
     e.preventDefault()
     setLoading(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch("https://api.resent.email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer re_ctXPhJYn_MjESqB5gZkSim5CRtUkrVxJE",
+        },
+        body: JSON.stringify({
+          from: formData.email,
+          to: "info@shoira-blog.uz",  // Siz qaysi emailga jo'natmoqchi bo'lsangiz
+          subject: formData.subject,
+          html: `
+            <p><strong>Name:</strong> ${formData.name}</p>
+            <p><strong>Email:</strong> ${formData.email}</p>
+            <p><strong>Message:</strong></p>
+            <p>${formData.message}</p>
+          `,
+        }),
+      })
 
-    setStatus({
-      type: "success",
-      message: "Xabaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
-    })
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`)
+      }
 
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    })
+      setStatus({
+        type: "success",
+        message: "Your message has been sent successfully! I'll get back to you soon.",
+      })
 
-    setLoading(false)
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      })
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message: "Something went wrong while sending your message. Please try again later.",
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -63,9 +88,9 @@ export default function ContactPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Aloqa</h1>
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Contact</h1>
         <p className="mx-auto max-w-2xl text-muted-foreground">
-          Savollaringiz bormi? Men bilan bog'laning va men sizga yordam berishdan xursand bo'laman.
+          Have questions? Contact me and I'll be happy to help you.
         </p>
       </motion.div>
 
@@ -77,8 +102,8 @@ export default function ContactPage() {
         >
           <Card>
             <CardHeader>
-              <CardTitle>Bog'lanish ma'lumotlari</CardTitle>
-              <CardDescription>Quyidagi ma'lumotlar orqali men bilan bog'lanishingiz mumkin</CardDescription>
+              <CardTitle>Contact Information</CardTitle>
+              <CardDescription>You can contact me via the following information</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
@@ -92,7 +117,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Telefon</p>
+                  <p className="text-sm font-medium">Phone</p>
                   <p className="text-sm text-muted-foreground">+998 90 123 45 67</p>
                 </div>
               </div>
@@ -100,13 +125,13 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Manzil</p>
-                  <p className="text-sm text-muted-foreground">Toshkent, O'zbekiston</p>
+                  <p className="text-sm font-medium">Address</p>
+                  <p className="text-sm text-muted-foreground">Tashkent, Uzbekistan</p>
                 </div>
               </div>
 
               <div className="mt-6 h-64 overflow-hidden rounded-lg bg-muted">
-                <img src="/placeholder.svg?height=300&width=500" alt="Map" className="h-full w-full object-cover" />
+                <img src="https://github.com/Xusanbek0039/shoira-blog.uz/blob/main/images/shoira_photo.png?raw=true" alt="Image" className="h-full w-full object-cover" />
               </div>
             </CardContent>
           </Card>
@@ -119,8 +144,8 @@ export default function ContactPage() {
         >
           <Card>
             <CardHeader>
-              <CardTitle>Xabar yuborish</CardTitle>
-              <CardDescription>Formani to'ldiring va men sizga tez orada javob beraman</CardDescription>
+              <CardTitle>Send a Message</CardTitle>
+              <CardDescription>Fill out the form and I'll get back to you soon</CardDescription>
             </CardHeader>
             <CardContent>
               {status.type && (
@@ -131,13 +156,13 @@ export default function ContactPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Ism</Label>
+                  <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Ismingiz"
+                    placeholder="Your name"
                     required
                   />
                 </div>
@@ -150,38 +175,38 @@ export default function ContactPage() {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="sizning@email.uz"
+                    placeholder="your@email.com"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Mavzu</Label>
+                  <Label htmlFor="subject">Subject</Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Xabar mavzusi"
+                    placeholder="Message subject"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Xabar</Label>
+                  <Label htmlFor="message">Message</Label>
                   <Textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Xabaringizni yozing..."
+                    placeholder="Write your message..."
                     className="min-h-[120px]"
                     required
                   />
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Yuborilmoqda..." : "Yuborish"}
+                  {loading ? "Sending..." : "Send"}
                 </Button>
               </form>
             </CardContent>
