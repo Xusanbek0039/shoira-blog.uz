@@ -14,7 +14,7 @@ const translations = {
   en: {
     // Locale
     locale: "en-US",
-
+    "auth.namePlaceholder":"Your full name!",    
     // Navigation
     "nav.home": "Home",
     "nav.about": "About Me",
@@ -157,11 +157,13 @@ const translations = {
     "logout.confirm": "Yes, log out",
 
     // Auth
+    "auth.password":"Password",
     "auth.loginSuccess": "Successfully logged in!",
     "auth.logoutSuccess": "Successfully logged out!",
     "auth.registerSuccess": "Successfully registered!",
 
     // Notifications
+    "auth.registerDescription":"A registered account cannot be deleted, but some of its information can be edited. Therefore, please keep your information confidential!",
     "notification.title": "Notifications",
     "notification.description": "View your recent notifications and updates",
     "notification.empty": "No notifications",
@@ -175,12 +177,19 @@ const translations = {
     "notification.newLoginMessage": "A new login was detected on your account",
     "notification.welcome": "Welcome to Shoira Blog",
     "notification.welcomeMessage": "Thank you for registering! Start exploring the blog and sharing your thoughts",
+    "auth.loginError":"Login error",
+    "auth.loggingIn":"Account is being verified",
+    "auth.loginDescription":"Enter your details to verify your account",
+    "auth.noAccount":"If you don't have an account, click this button",
   },
   uz: {
     // Locale
     locale: "uz-UZ",
-
+    "auth.loginDescription":"Hisobni tekshirish uchun malumotlarni kiriting",
+    "auth.namePlaceholder":"To'lliq ism familiyangiz!",
     // Navigation
+    "auth.registerDescription":"Ro'yxatdan o'tkazdirilgan hisob o'chirish imkonsiz ammo undagi ba'zi bir ma'lumotlarni taxrirlash mumkin. Shu sababli iltimos ma'lumotlaringiz sir saqlang!",
+    "auth.password":"Parolingiz",
     "nav.home": "Bosh sahifa",
     "nav.about": "Men haqimda",
     "nav.projects": "Loyihalarim",
@@ -315,7 +324,8 @@ const translations = {
     "contact.send": "Yuborish",
     "contact.sending": "Yuborilmoqda...",
     "contact.successMessage": "Xabaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
-
+    "auth.loginError":"Kirishda xatolik",
+    "auth.loggingIn":"Hisob tekshirilmoqda",
     // Logout
     "logout.title": "Chiqishni tasdiqlash",
     "logout.description": "Haqiqatan ham hisobingizdan chiqmoqchimisiz?",
@@ -339,14 +349,21 @@ const translations = {
     "notification.newLogin": "Yangi kirish aniqlandi",
     "notification.newLoginMessage": "Hisobingizga yangi kirish aniqlandi",
     "notification.welcome": "Shoira Blogga xush kelibsiz",
+    "auth.noAccount":"Hisobgiz mavjud emasmi unda ushbu tugmani bosing",
     "notification.welcomeMessage":
       "Ro'yxatdan o'tganingiz uchun rahmat! Blogni o'rganishni boshlang va fikrlaringizni ulashing",
+
   },
   ru: {
     // Locale
     locale: "ru-RU",
-
+    "auth.noAccount":"Если у вас нет учетной записи, нажмите эту кнопку",
+    "auth.loginDescription":"Введите свои данные для подтверждения вашей учетной записи",
+    "auth.loggingIn":"Учетная запись проверяется",
+    "auth.namePlaceholder":"Ваше полное имя!",
+    "auth.registerDescription":"Зарегистрированную учетную запись нельзя удалить, но часть ее информации можно редактировать. Поэтому, пожалуйста, сохраняйте конфиденциальность своей информации!",
     // Navigation
+    "auth.password": "Пароль",
     "nav.home": "Главная",
     "nav.about": "Обо мне",
     "nav.projects": "Проекты",
@@ -372,7 +389,7 @@ const translations = {
     "lang.uz": "Узбекский",
     "lang.ru": "Русский",
     "lang.select": "Язык",
-
+    "auth.loginError":"Ошибка входа",
     // Footer
     "footer.pages": "Страницы",
     "footer.social": "Социальные сети",

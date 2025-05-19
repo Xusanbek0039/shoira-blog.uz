@@ -35,8 +35,8 @@ export default function Footer() {
               Shoira-blog.uz
             </h3>
             <p className="text-sm text-muted-foreground">
-              Bu yerda men o'z fiklarim, loyihalarim va tajribalarim bilan o'rtoqlashaman.
-            </p>
+            This is where I share my fics, projects, and experiences.
+                        </p>
           </div>
           <div>
             <h3 className="mb-4 flex items-center text-lg font-bold">
@@ -150,7 +150,7 @@ export default function Footer() {
               </p>
               <p className="flex items-center text-sm text-muted-foreground">
                 <MapPin className="mr-2 h-4 w-4" />
-                Manzil: Toshkent, O'zbekiston
+                Address: Toshkent, O'zbekiston
               </p>
             </address>
           </div>

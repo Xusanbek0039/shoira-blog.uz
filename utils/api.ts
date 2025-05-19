@@ -34,13 +34,13 @@ api.interceptors.response.use(
     // Check if error is a network error
     if (error.message === "Network Error") {
       console.error("Network error - API server might be down")
-      return Promise.reject(new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring."))
+      return Promise.reject(new Error("Could not connect to the server. Check your internet connection."))
     }
 
     // Check if error has response
     if (error.response) {
       console.error("API Error Response:", error.response.status, error.response.data)
-      return Promise.reject(new Error(error.response.data.message || "Server xatosi"))
+      return Promise.reject(new Error(error.response.data.message || "Server error"))
     }
 
     return Promise.reject(error)
@@ -52,13 +52,13 @@ const handleError = (error: any) => {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    throw new Error(error.response.data.message || "Server xatosi")
+    throw new Error(error.response.data.message || "Server error")
   } else if (error.request) {
     // The request was made but no response was received
-    throw new Error("Serverga ulanib bo'lmadi. Internet aloqangizni tekshiring.")
+    throw new Error("Could not connect to the server. Check your internet connection.")
   } else {
     // Something happened in setting up the request that triggered an Error
-    throw new Error("So'rov yuborishda xatolik")
+    throw new Error("Error sending request")
   }
 }
 

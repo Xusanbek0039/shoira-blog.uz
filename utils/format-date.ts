@@ -4,18 +4,18 @@ export function formatDate(dateString: string): string {
   // Format: 12-Fevral, 2023
   const day = date.getDate()
   const monthNames = [
-    "Yanvar",
-    "Fevral",
-    "Mart",
-    "Aprel",
+    "January",
+    "February",
+    "March",
+    "April",
     "May",
-    "Iyun",
-    "Iyul",
-    "Avgust",
-    "Sentabr",
-    "Oktabr",
-    "Noyabr",
-    "Dekabr",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ]
   const month = monthNames[date.getMonth()]
   const year = date.getFullYear()

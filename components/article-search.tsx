@@ -23,7 +23,7 @@ export default function ArticleSearch({ onSearch, onFilter, onSort }: ArticleSea
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   // Sample tags - in a real app, these would come from your API
-  const availableTags = ["Web Development", "Design", "Technology", "Programming", "UI/UX", "Mobile"]
+  const availableTags = ["Design", "Technology", "Programming", "UI/UX", "News"]
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

@@ -43,10 +43,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <CardHeader>
               <CardTitle className="flex items-center text-xl text-red-600">
                 <XCircle className="mr-2 h-5 w-5" />
-                Xatolik yuz berdi
+                An error occurred.
               </CardTitle>
               <CardDescription>
-                Ilovada kutilmagan xatolik yuz berdi. Iltimos, sahifani yangilang yoki keyinroq qayta urinib ko'ring.
+              An unexpected error occurred in the application. Please refresh the page or try again later.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -58,7 +58,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             </CardContent>
             <CardFooter>
               <Button onClick={() => window.location.reload()} className="w-full">
-                Sahifani yangilash
+              Refresh page
               </Button>
             </CardFooter>
           </Card>

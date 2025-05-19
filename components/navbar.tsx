@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
 import {
   Menu,
   X,
@@ -35,7 +34,7 @@ import LogoutConfirmation from "@/components/logout-confirmation"
 
 // Flag image URLs
 const FLAGS = {
-  en: "https://upload.wikimedia.org/wikipedia/commons/d/de/Flag_of_the_United_States.png",
+  en: "https://sjc.microlink.io/GWEipgQATeo66nOnb58wiltNFjx6xejZHA8_8AVh9SUWRfwIIEoOvOFPNZoNsr1ubdXPwVMB8WFAHu8CZ2vJkQ.jpeg",
   uz: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnZzwWkWhQKBKwX2xU_jDAVZZtO-6vgudnw&s",
   ru: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Russia-flag.png",
 }
@@ -173,21 +172,15 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <motion.div
-          className="fixed inset-0 top-16 z-40 bg-gray-900/95 backdrop-blur-sm md:hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="container flex h-full flex-col px-4 py-6">
+        <div className="fixed inset-0 top-16 z-40 w-full bg-slate-900 md:hidden">
+          <div className="container flex h-[calc(100vh-4rem)] flex-col bg-slate-900 px-4 py-6">
             <div className="flex flex-col space-y-4">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`flex items-center rounded-md p-3 text-base transition-colors hover:bg-gray-800 ${
-                    pathname === item.path ? "bg-gray-800 font-medium text-primary" : "text-gray-100"
+                  className={`flex items-center rounded-md p-3 text-base transition-colors hover:bg-slate-800 ${
+                    pathname === item.path ? "bg-slate-800 font-medium text-primary" : "text-slate-100"
                   }`}
                 >
                   <span className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">
@@ -202,13 +195,13 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <>
                   <div className="mb-2 flex items-center gap-2 px-3">
-                    <User className="h-5 w-5 text-gray-400" />
-                    <span className="text-sm font-medium text-gray-100">{user?.name}</span>
+                    <User className="h-5 w-5 text-slate-400" />
+                    <span className="text-sm font-medium text-slate-100">{user?.name}</span>
                   </div>
                   <Link href="/profile">
                     <Button
                       variant="outline"
-                      className="w-full justify-start bg-gray-800 text-gray-100 hover:bg-gray-700"
+                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
                       size="lg"
                     >
                       <User className="mr-3 h-5 w-5" />
@@ -218,7 +211,7 @@ export default function Navbar() {
                   <Link href="/create">
                     <Button
                       variant="outline"
-                      className="w-full justify-start bg-gray-800 text-gray-100 hover:bg-gray-700"
+                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
                       size="lg"
                     >
                       <FileText className="mr-3 h-5 w-5" />
@@ -228,7 +221,7 @@ export default function Navbar() {
                   <Link href="/notifications">
                     <Button
                       variant="outline"
-                      className="w-full justify-start bg-gray-800 text-gray-100 hover:bg-gray-700"
+                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
                       size="lg"
                     >
                       <Bell className="mr-3 h-5 w-5" />
@@ -240,7 +233,7 @@ export default function Navbar() {
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   <Link href="/login" className="w-full">
-                    <Button variant="outline" className="w-full bg-gray-800 text-gray-100 hover:bg-gray-700">
+                    <Button variant="outline" className="w-full bg-slate-800 text-slate-100 hover:bg-slate-700">
                       {t("user.login")}
                     </Button>
                   </Link>
@@ -250,13 +243,13 @@ export default function Navbar() {
                 </div>
               )}
 
-              <div className="mt-4 rounded-lg border border-gray-700 bg-gray-800/50 p-4">
-                <p className="mb-3 text-sm font-medium text-gray-100">{t("theme.light")}</p>
+              <div className="mt-4 rounded-lg border border-slate-700 bg-slate-800 p-4">
+                <p className="mb-3 text-sm font-medium text-slate-100">{t("theme.light")}</p>
                 <div className="grid grid-cols-3 gap-2">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex flex-col items-center gap-1 bg-gray-800 p-3 text-gray-100 hover:bg-gray-700"
+                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
                     onClick={() => document.documentElement.classList.remove("dark")}
                   >
                     <Sun className="h-5 w-5" />
@@ -265,7 +258,7 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex flex-col items-center gap-1 bg-gray-800 p-3 text-gray-100 hover:bg-gray-700"
+                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
                     onClick={() => document.documentElement.classList.add("dark")}
                   >
                     <Moon className="h-5 w-5" />
@@ -274,7 +267,7 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex flex-col items-center gap-1 bg-gray-800 p-3 text-gray-100 hover:bg-gray-700"
+                    className="flex flex-col items-center gap-1 bg-slate-800 p-3 text-slate-100 hover:bg-slate-700"
                     onClick={() => {
                       if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
                         document.documentElement.classList.add("dark")
@@ -289,14 +282,14 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-lg border border-gray-700 bg-gray-800/50 p-4">
-                <p className="mb-3 text-sm font-medium text-gray-100">{t("lang.select")}</p>
+              <div className="mt-4 rounded-lg border border-slate-700 bg-slate-800 p-4">
+                <p className="mb-3 text-sm font-medium text-slate-100">{t("lang.select")}</p>
                 <div className="space-y-2">
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`flex w-full items-center justify-between bg-gray-800 px-3 py-2 text-gray-100 hover:bg-gray-700 ${
-                      language === "en" ? "border-primary" : "border-gray-700"
+                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
+                      language === "en" ? "border-primary" : "border-slate-700"
                     }`}
                     onClick={() => setLanguage("en")}
                   >
@@ -308,13 +301,13 @@ export default function Navbar() {
                       />
                       <span>English</span>
                     </div>
-                    <span className="text-xs text-gray-400">(EN)</span>
+                    <span className="text-xs text-slate-400">(EN)</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`flex w-full items-center justify-between bg-gray-800 px-3 py-2 text-gray-100 hover:bg-gray-700 ${
-                      language === "ru" ? "border-primary" : "border-gray-700"
+                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
+                      language === "ru" ? "border-primary" : "border-slate-700"
                     }`}
                     onClick={() => setLanguage("ru")}
                   >
@@ -326,13 +319,13 @@ export default function Navbar() {
                       />
                       <span>Русский</span>
                     </div>
-                    <span className="text-xs text-gray-400">(RU)</span>
+                    <span className="text-xs text-slate-400">(RU)</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`flex w-full items-center justify-between bg-gray-800 px-3 py-2 text-gray-100 hover:bg-gray-700 ${
-                      language === "uz" ? "border-primary" : "border-gray-700"
+                    className={`flex w-full items-center justify-between bg-slate-800 px-3 py-2 text-slate-100 hover:bg-slate-700 ${
+                      language === "uz" ? "border-primary" : "border-slate-700"
                     }`}
                     onClick={() => setLanguage("uz")}
                   >
@@ -344,13 +337,13 @@ export default function Navbar() {
                       />
                       <span>Uzbek</span>
                     </div>
-                    <span className="text-xs text-gray-400">(UZ)</span>
+                    <span className="text-xs text-slate-400">(UZ)</span>
                   </Button>
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </header>
   )
