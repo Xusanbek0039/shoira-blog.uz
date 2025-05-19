@@ -9,24 +9,36 @@ import jwt from "jsonwebtoken"
 import User from "./models/User.js"
 import Article from "./models/Article.js"
 
+// Load environment variables
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
+const MONGODB_URI = process.env.MONGODB_URI
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "*"
 
 // Middleware
-app.use(cors())
+app.use(
+  cors({
+    origin: CORS_ORIGIN,
+    credentials: true,
+  }),
+)
 app.use(express.json())
 
 // MongoDB Connection
-const MONGODB_URI =
-  "mongodb+srv://itpark0071:Hxqtth70FbKC33vg@cluster0.lbsq5kq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("MongoDB ga muvaffaqiyatli ulandi"))
   .catch((err) => console.error("MongoDB ga ulanishda xatolik:", err))
+
+// Log environment variables (without sensitive data)
+console.log("Server running with:")
+console.log("PORT:", PORT)
+console.log("CORS_ORIGIN:", CORS_ORIGIN)
+console.log("MONGODB_URI:", MONGODB_URI ? "Connected" : "Not configured")
+console.log("JWT_SECRET:", JWT_SECRET ? "Configured" : "Not configured")
 
 // Auth middleware
 const auth = async (req, res, next) => {
@@ -128,6 +140,66 @@ app.post("/api/users/login", async (req, res) => {
   }
 })
 
+// Update user profile
+app.put("/api/users/profile", auth, async (req, res) => {
+  try {
+    const { name, email } = req.body
+
+    // Check if email is already taken by another user
+    if (email !== req.user.email) {
+      const existingUser = await User.findOne({ email })
+      if (existingUser) {
+        return res.status(400).json({ message: "Bu email allaqachon ishlatilmoqda" })
+      }
+    }
+
+    // Update user
+    const user = await User.findById(req.user._id)
+    if (name) user.name = name
+    if (email) user.email = email
+
+    await user.save()
+
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    })
+  } catch (error) {
+    console.error("Update profile error:", error)
+    res.status(500).json({ message: "Server xatosi" })
+  }
+})
+
+// Change password
+app.put("/api/users/password", auth, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body
+
+    // Check current password
+    const user = await User.findById(req.user._id)
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+    if (!isMatch) {
+      return res.status(400).json({ message: "Joriy parol noto'g'ri" })
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+    // Update password
+    user.password = hashedPassword
+    await user.save()
+
+    res.json({ message: "Parol muvaffaqiyatli o'zgartirildi" })
+  } catch (error) {
+    console.error("Change password error:", error)
+    res.status(500).json({ message: "Server xatosi" })
+  }
+})
+
 // Get all articles
 app.get("/api/articles", async (req, res) => {
   try {
@@ -135,6 +207,17 @@ app.get("/api/articles", async (req, res) => {
     res.json(articles)
   } catch (error) {
     console.error("Get articles error:", error)
+    res.status(500).json({ message: "Server xatosi" })
+  }
+})
+
+// Get user's articles
+app.get("/api/articles/user", auth, async (req, res) => {
+  try {
+    const articles = await Article.find({ user: req.user._id }).sort({ createdAt: -1 })
+    res.json(articles)
+  } catch (error) {
+    console.error("Get user articles error:", error)
     res.status(500).json({ message: "Server xatosi" })
   }
 })
@@ -176,6 +259,34 @@ app.post("/api/articles", auth, async (req, res) => {
   }
 })
 
+// Update article (protected)
+app.put("/api/articles/:id", auth, async (req, res) => {
+  try {
+    const { title, content, image } = req.body
+    const article = await Article.findById(req.params.id)
+
+    if (!article) {
+      return res.status(404).json({ message: "Maqola topilmadi" })
+    }
+
+    // Check if user owns the article
+    if (article.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "Ruxsat berilmagan" })
+    }
+
+    // Update article
+    article.title = title
+    article.content = content
+    article.image = image
+
+    await article.save()
+    res.json(article)
+  } catch (error) {
+    console.error("Update article error:", error)
+    res.status(500).json({ message: "Server xatosi" })
+  }
+})
+
 // Delete article (protected)
 app.delete("/api/articles/:id", auth, async (req, res) => {
   try {
@@ -196,6 +307,11 @@ app.delete("/api/articles/:id", auth, async (req, res) => {
     console.error("Delete article error:", error)
     res.status(500).json({ message: "Server xatosi" })
   }
+})
+
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Server is running" })
 })
 
 // Start server

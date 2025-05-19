@@ -1,7 +1,7 @@
 import axios from "axios"
 
 // API URL - backend server manzili
-const API_URL = "http://localhost:5000"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
 
 // Create axios instance
 const api = axios.create({
@@ -57,6 +57,32 @@ export const registerUser = async (userData: {
   }
 }
 
+export const updateUserProfile = async (userData: {
+  name: string
+  email: string
+}) => {
+  try {
+    const response = await api.put("/api/users/profile", userData)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const changePassword = async (passwordData: {
+  currentPassword: string
+  newPassword: string
+}) => {
+  try {
+    const response = await api.put("/api/users/password", passwordData)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
 // Articles API calls
 export const fetchArticles = async () => {
   try {
@@ -78,6 +104,16 @@ export const fetchArticleById = async (id: string) => {
   }
 }
 
+export const getUserArticles = async () => {
+  try {
+    const response = await api.get("/api/articles/user")
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
 export const createArticle = async (articleData: {
   title: string
   content: string
@@ -85,6 +121,23 @@ export const createArticle = async (articleData: {
 }) => {
   try {
     const response = await api.post("/api/articles", articleData)
+    return response.data
+  } catch (error) {
+    handleError(error)
+    throw error
+  }
+}
+
+export const updateArticle = async (
+  id: string,
+  articleData: {
+    title: string
+    content: string
+    image?: string
+  },
+) => {
+  try {
+    const response = await api.put(`/api/articles/${id}`, articleData)
     return response.data
   } catch (error) {
     handleError(error)
@@ -102,30 +155,5 @@ export const deleteArticle = async (id: string) => {
   }
 }
 
-// Function to set up real API connection when backend is ready
-export const setupRealApiConnection = (apiUrl: string, mongoDbUrl: string) => {
-  console.log("Setting up real API connection to:", apiUrl)
-  console.log("Using MongoDB connection:", mongoDbUrl)
-
-  // This is just a placeholder function to show how you would set up
-  // the real API connection when your backend is ready
-
-  // In a real implementation, you would:
-  // 1. Create an axios instance with the API URL
-  // 2. Set up interceptors for authentication
-  // 3. Replace the mock functions with real API calls
-
-  const api = axios.create({
-    baseURL: apiUrl,
-  })
-
-  api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token")
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-  })
-
-  return api
-}
+// Log API URL for debugging
+console.log("API URL:", API_URL)

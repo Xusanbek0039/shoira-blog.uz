@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { BookOpen } from "lucide-react"
 import ArticleCard from "@/components/article-card"
 import { fetchArticles } from "@/utils/api"
 import type { Article } from "@/types"
@@ -50,10 +51,32 @@ export default function ArticlesPage() {
       </motion.div>
 
       {loading ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-[350px] animate-pulse rounded-lg bg-muted" />
-          ))}
+        <div className="flex flex-col items-center justify-center py-12">
+          <motion.div
+            animate={{
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear",
+            }}
+          >
+            <BookOpen className="h-16 w-16 text-primary" />
+          </motion.div>
+          <motion.p
+            className="mt-4 text-lg font-medium text-muted-foreground"
+            animate={{
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+            }}
+          >
+            Maqolalar yuklanmoqda...
+          </motion.p>
         </div>
       ) : (
         <motion.div

@@ -6,6 +6,8 @@ import Navbar from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/context/auth-context"
 import Footer from "@/components/footer"
+import LoadingScreen from "@/components/loading-screen"
+import ApiStatus from "@/components/api-status"
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
@@ -25,10 +27,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
+            <LoadingScreen />
             <div className="flex min-h-screen flex-col">
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />
+              <ApiStatus />
             </div>
           </AuthProvider>
         </ThemeProvider>

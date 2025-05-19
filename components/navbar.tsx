@@ -4,8 +4,15 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Menu, X } from "lucide-react"
+import { Menu, X, BookOpen, BookText, BookMarked, Library, Bookmark, BookCopy, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/context/auth-context"
 import { ModeToggle } from "@/components/mode-toggle"
 
@@ -34,12 +41,12 @@ export default function Navbar() {
   }
 
   const navItems = [
-    { name: "Bosh sahifa", path: "/" },
-    { name: "Men haqimda", path: "/about" },
-    { name: "Loyihalarim", path: "/projects" },
-    { name: "Maqolalar", path: "/articles" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "Aloqa", path: "/contact" },
+    { name: "Bosh sahifa", path: "/", icon: <BookOpen className="mr-1 h-4 w-4" /> },
+    { name: "Men haqimda", path: "/about", icon: <BookText className="mr-1 h-4 w-4" /> },
+    { name: "Loyihalarim", path: "/projects", icon: <BookMarked className="mr-1 h-4 w-4" /> },
+    { name: "Maqolalar", path: "/articles", icon: <BookCopy className="mr-1 h-4 w-4" /> },
+    { name: "Portfolio", path: "/portfolio", icon: <Library className="mr-1 h-4 w-4" /> },
+    { name: "Aloqa", path: "/contact", icon: <Bookmark className="mr-1 h-4 w-4" /> },
   ]
 
   return (
@@ -50,6 +57,7 @@ export default function Navbar() {
     >
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center text-xl font-bold">
+          <BookOpen className="mr-2 h-6 w-6 text-primary" />
           Shoira-blog.uz
         </Link>
 
@@ -59,10 +67,11 @@ export default function Navbar() {
             <Link
               key={item.path}
               href={item.path}
-              className={`text-sm transition-colors hover:text-primary ${
+              className={`flex items-center text-sm transition-colors hover:text-primary ${
                 pathname === item.path ? "font-medium text-primary" : "text-muted-foreground"
               }`}
             >
+              {item.icon}
               {item.name}
             </Link>
           ))}
@@ -71,19 +80,24 @@ export default function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
           <ModeToggle />
           {isAuthenticated ? (
-            <>
-              <Link href="/create">
-                <Button variant="outline" size="sm">
-                  Maqola joylash
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  {user?.name}
                 </Button>
-              </Link>
-              <Button variant="ghost" size="sm" onClick={logout}>
-                Chiqish
-              </Button>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{user?.name}</span>
-              </div>
-            </>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">Shaxsiy kabinet</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/create">Maqola joylash</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout}>Chiqish</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <>
               <Link href="/login">
@@ -121,10 +135,11 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`py-2 text-sm transition-colors hover:text-primary ${
+                className={`flex items-center py-2 text-sm transition-colors hover:text-primary ${
                   pathname === item.path ? "font-medium text-primary" : "text-muted-foreground"
                 }`}
               >
+                {item.icon}
                 {item.name}
               </Link>
             ))}
@@ -132,11 +147,18 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <>
                   <div className="mb-3 flex items-center gap-2">
+                    <User className="h-4 w-4" />
                     <span className="text-sm font-medium">{user?.name}</span>
                   </div>
                   <div className="flex flex-col gap-2">
+                    <Link href="/profile">
+                      <Button variant="outline" className="w-full justify-start">
+                        Shaxsiy kabinet
+                      </Button>
+                    </Link>
                     <Link href="/create">
                       <Button variant="outline" className="w-full justify-start">
+                        <BookText className="mr-2 h-4 w-4" />
                         Maqola joylash
                       </Button>
                     </Link>

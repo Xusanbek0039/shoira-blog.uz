@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { fetchArticleById } from "@/utils/api"
 import type { Article } from "@/types"
 import { formatDate } from "@/utils/format-date"
+import ArticlePageLoading from "@/components/article-page-loading"
 
 export default function ArticlePage() {
   const { id } = useParams()
@@ -30,20 +31,7 @@ export default function ArticlePage() {
   }, [id])
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="mx-auto max-w-3xl">
-          <div className="h-8 w-2/3 animate-pulse rounded bg-muted" />
-          <div className="mt-4 h-4 w-1/3 animate-pulse rounded bg-muted" />
-          <div className="mt-8 h-64 animate-pulse rounded-lg bg-muted" />
-          <div className="mt-8 space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-4 animate-pulse rounded bg-muted" />
-            ))}
-          </div>
-        </div>
-      </div>
-    )
+    return <ArticlePageLoading />
   }
 
   if (!article) {

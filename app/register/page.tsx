@@ -10,9 +10,11 @@ import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { registerUser } from "@/utils/api"
+import { checkPasswordStrength } from "@/utils/password-strength"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -25,10 +27,27 @@ export default function RegisterPage() {
   })
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [passwordStrength, setPasswordStrength] = useState(0)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    if (name === "password") {
+      setPasswordStrength(checkPasswordStrength(value))
+    }
+  }
+
+  const getPasswordStrengthColor = () => {
+    if (passwordStrength < 30) return "bg-red-500"
+    if (passwordStrength < 60) return "bg-yellow-500"
+    return "bg-green-500"
+  }
+
+  const getPasswordStrengthText = () => {
+    if (passwordStrength < 30) return "Zaif"
+    if (passwordStrength < 60) return "O'rtacha"
+    return "Kuchli"
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,6 +56,11 @@ export default function RegisterPage() {
 
     if (formData.password !== formData.confirmPassword) {
       setError("Parollar mos kelmadi")
+      return
+    }
+
+    if (passwordStrength < 30) {
+      setError("Parol juda zaif. Kuchliroq parol tanlang.")
       return
     }
 
@@ -114,6 +138,15 @@ export default function RegisterPage() {
                     required
                     minLength={6}
                   />
+                  {formData.password && (
+                    <div className="mt-2">
+                      <div className="mb-1 flex items-center justify-between">
+                        <span className="text-xs">Parol xavfsizligi:</span>
+                        <span className="text-xs font-medium">{getPasswordStrengthText()}</span>
+                      </div>
+                      <Progress value={passwordStrength} className={`h-2 w-full ${getPasswordStrengthColor()}`} />
+                    </div>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="confirmPassword">Parolni tasdiqlang</Label>
