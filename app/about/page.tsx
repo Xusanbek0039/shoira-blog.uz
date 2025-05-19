@@ -4,51 +4,66 @@ import { motion } from "framer-motion"
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-6 py-16">
       <motion.div
-        className="mx-auto max-w-3xl"
-        initial={{ opacity: 0, y: 20 }}
+        className="mx-auto max-w-3xl bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <h1 className="mb-6 text-3xl font-bold md:text-4xl">Men haqimda</h1>
+        <h1 className="mb-8 text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+          About Me
+        </h1>
 
-        <div className="mb-8 overflow-hidden rounded-lg">
-          <img src="/placeholder.svg?height=300&width=800" alt="Men haqimda" className="h-auto w-full object-cover" />
+        <div className="mb-10 overflow-hidden rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
+          <img
+            src="/placeholder.svg?height=300&width=800"
+            alt="Men haqimda"
+            className="w-full h-64 object-cover object-center"
+            loading="lazy"
+          />
         </div>
 
-        <div className="prose prose-lg max-w-none dark:prose-invert">
+        <section className="prose prose-lg max-w-none text-gray-700 dark:prose-invert dark:text-gray-300">
           <p>
-            Salom! Mening ismim Shoira. Men web dasturlash va dizayn sohasida faoliyat yuritaman. Bu blogda o'z
-            tajribalarim, bilimlarim va loyihalarim haqida yozib boraman.
+            <strong>Salom! Mening ismim Shoira.</strong> Men web dasturlash va dizayn sohasida faoliyat yuritaman.
+            Ushbu blogda o‘z tajribalarim, bilimlarim va loyihalarim haqida yozib boraman.
           </p>
 
-          <h2>Tajriba</h2>
+          <h2 className="mt-8 mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Tajriba
+          </h2>
           <p>
-            Men 5 yildan ortiq vaqt davomida web dasturlash sohasida ishlayman. Bu vaqt mobaynida turli xil loyihalar
-            ustida ishladim va ko'plab texnologiyalarni o'rgandim.
+            5 yildan ortiq web dasturlash sohasida faoliyat yuritaman. Bu vaqt mobaynida turli loyihalar ustida ishladim,
+            ko‘plab texnologiyalarni o‘rgandim va amaliyotda qo‘lladim.
           </p>
 
-          <h2>Ko'nikmalar</h2>
-          <ul>
-            <li>Frontend: HTML, CSS, JavaScript, React, Next.js</li>
-            <li>Backend: Node.js, Express, MongoDB</li>
-            <li>Dizayn: Figma, Adobe Photoshop</li>
-            <li>Boshqalar: Git, Docker, AWS</li>
+          <h2 className="mt-8 mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Ko‘nikmalar
+          </h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Frontend:</strong> HTML, CSS, JavaScript, React, Next.js</li>
+            <li><strong>Backend:</strong> Node.js, Express, MongoDB</li>
+            <li><strong>Dizayn:</strong> Figma, Adobe Photoshop</li>
+            <li><strong>Boshqalar:</strong> Git, Docker, AWS</li>
           </ul>
 
-          <h2>Ta'lim</h2>
+          <h2 className="mt-8 mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Ta'lim
+          </h2>
           <p>
-            Men Toshkent Axborot Texnologiyalari Universitetini tamomlaganman. Bundan tashqari, o'z ustimda ishlashni
-            to'xtatmayman va doimo yangi texnologiyalarni o'rganib boraman.
+            Toshkent Axborot Texnologiyalari Universitetini tamomlaganman. O‘z ustimda ishlashni davom ettiraman
+            va doimo yangi texnologiyalarni o‘rganaman.
           </p>
 
-          <h2>Qiziqishlar</h2>
+          <h2 className="mt-8 mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Qiziqishlar
+          </h2>
           <p>
-            Dasturlashdan tashqari, men kitob o'qishni, sayohat qilishni va fotografiya bilan shug'ullanishni yaxshi
-            ko'raman. Bu qiziqishlarim menga yangi g'oyalar va ilhom beradi.
+            Dasturlashdan tashqari, kitob o‘qishni, sayohat qilishni va fotografiya bilan shug‘ullanishni yaxshi ko‘raman.
+            Bu qiziqishlar menga yangi g‘oyalar va ilhom beradi.
           </p>
-        </div>
+        </section>
       </motion.div>
     </div>
   )
