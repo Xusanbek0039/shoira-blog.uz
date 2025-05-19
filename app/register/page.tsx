@@ -169,6 +169,7 @@ export default function RegisterPage() {
                 <Button type="submit" disabled={loading}>
                   {loading ? t("auth.registering") : t("user.register")}
                 </Button>
+                
               </div>
             </form>
           </CardContent>

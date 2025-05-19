@@ -181,10 +181,13 @@ const translations = {
     "auth.loggingIn":"Account is being verified",
     "auth.loginDescription":"Enter your details to verify your account",
     "auth.noAccount":"If you don't have an account, click this button",
+    "auth.registering":"Registering...",
+    "auth.haveAccount":"Do you have an account?",
   },
   uz: {
     // Locale
     locale: "uz-UZ",
+    "auth.registering":"Ro'yxatdan o'tilmoqda...",
     "auth.loginDescription":"Hisobni tekshirish uchun malumotlarni kiriting",
     "auth.namePlaceholder":"To'lliq ism familiyangiz!",
     // Navigation
@@ -257,6 +260,7 @@ const translations = {
     "articles.imagePlaceholder": "https://example.com/image.jpg",
     "articles.content": "Matn",
     "articles.contentPlaceholder": "Maqola matni...",
+    
 
     // Search
     "search.placeholder": "Maqolalarni qidirish...",
@@ -350,6 +354,7 @@ const translations = {
     "notification.newLoginMessage": "Hisobingizga yangi kirish aniqlandi",
     "notification.welcome": "Shoira Blogga xush kelibsiz",
     "auth.noAccount":"Hisobgiz mavjud emasmi unda ushbu tugmani bosing",
+    "auth.haveAccount":"Hisobingiz mavjudmi?",
     "notification.welcomeMessage":
       "Ro'yxatdan o'tganingiz uchun rahmat! Blogni o'rganishni boshlang va fikrlaringizni ulashing",
 
@@ -357,6 +362,8 @@ const translations = {
   ru: {
     // Locale
     locale: "ru-RU",
+    "auth.haveAccount":"У вас есть аккаунт?",
+    "auth.registering":"Регистрация...",
     "auth.noAccount":"Если у вас нет учетной записи, нажмите эту кнопку",
     "auth.loginDescription":"Введите свои данные для подтверждения вашей учетной записи",
     "auth.loggingIn":"Учетная запись проверяется",
