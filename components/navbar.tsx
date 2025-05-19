@@ -122,12 +122,7 @@ export default function Navbar() {
                     {t("user.newArticle")}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/notifications" className="flex items-center gap-2">
-                    <Bell className="h-4 w-4" />
-                    {t("user.notifications")}
-                  </Link>
-                </DropdownMenuItem>
+
                 <DropdownMenuSeparator />
                 <LogoutConfirmation />
               </DropdownMenuContent>
@@ -204,16 +199,7 @@ export default function Navbar() {
                       {t("user.newArticle")}
                     </Button>
                   </Link>
-                  <Link href="/notifications">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
-                      size="lg"
-                    >
-                      <Bell className="mr-3 h-5 w-5" />
-                      {t("user.notifications")}
-                    </Button>
-                  </Link>
+
                   <LogoutConfirmation variant="mobile" />
                 </>
               ) : (
