@@ -1,161 +1,143 @@
-import Image from "next/image"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
+"use client"
 
-// This would normally fetch from the database
+import { motion } from "framer-motion"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+// Mock portfolio data
 const portfolioItems = {
   web: [
     {
-      id: "web1",
-      title: "E-commerce platformasi",
-      description: "Online do'kon uchun to'liq funksional platforma",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 1,
+      title: "E-commerce Websayt",
+      description: "Online do'kon uchun zamonaviy web sayt",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2023",
     },
     {
-      id: "web2",
-      title: "Blog platformasi",
-      description: "Maqolalar va blog postlari uchun platforma",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 2,
+      title: "Blog Platformasi",
+      description: "Kontent boshqarish tizimi bilan blog platformasi",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2022",
     },
     {
-      id: "web3",
-      title: "Portfolio sayt",
-      description: "Shaxsiy portfolio uchun sayt",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 3,
+      title: "Kompaniya Websayti",
+      description: "IT kompaniyasi uchun korporativ web sayt",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2022",
     },
   ],
   mobile: [
     {
-      id: "mobile1",
-      title: "Task Manager ilovasi",
-      description: "Vazifalarni boshqarish uchun mobil ilova",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 4,
+      title: "Fitness Ilovasi",
+      description: "Mashqlar va ovqatlanish rejimini kuzatish uchun mobil ilova",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2023",
     },
     {
-      id: "mobile2",
-      title: "Weather App",
-      description: "Ob-havo ma'lumotlarini ko'rsatuvchi mobil ilova",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 5,
+      title: "To-do List Ilovasi",
+      description: "Vazifalarni boshqarish uchun mobil ilova",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2021",
     },
   ],
   design: [
     {
-      id: "design1",
-      title: "E-commerce UI dizayni",
-      description: "Online do'kon uchun UI dizayn",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 6,
+      title: "Brend Identifikatsiyasi",
+      description: "Startup uchun to'liq brend identifikatsiyasi",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2023",
     },
     {
-      id: "design2",
-      title: "Mobil ilova UI/UX dizayni",
-      description: "Task Manager ilovasi uchun UI/UX dizayn",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      id: 7,
+      title: "UI/UX Dizayn",
+      description: "Mobil ilova uchun foydalanuvchi interfeysi dizayni",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2022",
     },
     {
-      id: "design3",
-      title: "Logo dizayn",
+      id: 8,
+      title: "Logo Dizayn",
       description: "Turli kompaniyalar uchun logo dizaynlari",
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      image: "/placeholder.svg?height=400&width=600",
+      year: "2021",
     },
   ],
 }
 
 export default function PortfolioPage() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow">
-        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-sky-50 to-white dark:from-sky-950 dark:to-background">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center gap-4 text-center">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl text-sky-800 dark:text-sky-300">
-                Portfolio
-              </h1>
-              <p className="max-w-[700px] text-muted-foreground md:text-xl">Mening ishlarim va loyihalarim to'plami</p>
-            </div>
-          </div>
-        </section>
+    <div className="container mx-auto px-4 py-12">
+      <motion.div
+        className="mb-12 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Portfolio</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">
+          Mening eng yaxshi ishlarim to'plami. Web saytlar, mobil ilovalar va dizayn ishlari.
+        </p>
+      </motion.div>
 
-        <section className="w-full py-12 md:py-24">
-          <div className="container px-4 md:px-6">
-            <Tabs defaultValue="web" className="w-full">
-              <div className="flex justify-center mb-8">
-                <TabsList>
-                  <TabsTrigger value="web">Web loyihalar</TabsTrigger>
-                  <TabsTrigger value="mobile">Mobil ilovalar</TabsTrigger>
-                  <TabsTrigger value="design">UI/UX dizayn</TabsTrigger>
-                </TabsList>
-              </div>
+      <Tabs defaultValue="web" className="mx-auto max-w-5xl">
+        <TabsList className="mb-8 grid w-full grid-cols-3">
+          <TabsTrigger value="web">Web Saytlar</TabsTrigger>
+          <TabsTrigger value="mobile">Mobil Ilovalar</TabsTrigger>
+          <TabsTrigger value="design">Dizayn</TabsTrigger>
+        </TabsList>
 
-              <TabsContent value="web" className="mt-0">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {portfolioItems.web.map((item) => (
-                    <Card key={item.id} className="overflow-hidden dark:border-gray-800">
-                      <div className="aspect-video relative">
-                        <Image
-                          src={item.imageUrl || "/placeholder.svg"}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
+        {Object.entries(portfolioItems).map(([category, items]) => (
+          <TabsContent key={category} value={category}>
+            <motion.div
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1,
+                  },
+                },
+              }}
+              initial="hidden"
+              animate="visible"
+            >
+              {items.map((item) => (
+                <motion.div
+                  key={item.id}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+                  }}
+                >
+                  <Card className="overflow-hidden">
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={item.image || "/placeholder.svg"}
+                        alt={item.title}
+                        className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                    <CardContent className="p-4">
+                      <div className="mb-1 flex items-center justify-between">
+                        <h3 className="text-lg font-semibold">{item.title}</h3>
+                        <span className="text-sm text-muted-foreground">{item.year}</span>
                       </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-bold mb-1 dark:text-white">{item.title}</h3>
-                        <p className="text-muted-foreground text-sm">{item.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="mobile" className="mt-0">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {portfolioItems.mobile.map((item) => (
-                    <Card key={item.id} className="overflow-hidden dark:border-gray-800">
-                      <div className="aspect-video relative">
-                        <Image
-                          src={item.imageUrl || "/placeholder.svg"}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-bold mb-1 dark:text-white">{item.title}</h3>
-                        <p className="text-muted-foreground text-sm">{item.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="design" className="mt-0">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {portfolioItems.design.map((item) => (
-                    <Card key={item.id} className="overflow-hidden dark:border-gray-800">
-                      <div className="aspect-video relative">
-                        <Image
-                          src={item.imageUrl || "/placeholder.svg"}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-bold mb-1 dark:text-white">{item.title}</h3>
-                        <p className="text-muted-foreground text-sm">{item.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </section>
-      </div>
-      <Footer />
-    </main>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
   )
 }

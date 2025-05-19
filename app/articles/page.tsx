@@ -1,28 +1,72 @@
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { ArticlesList } from "@/components/articles-list"
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import ArticleCard from "@/components/article-card"
+import { fetchArticles } from "@/utils/api"
+import type { Article } from "@/types"
 
 export default function ArticlesPage() {
-  return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow">
-        <section className="w-full py-12 md:py-24 bg-gradient-to-b from-sky-50 to-white dark:from-sky-950 dark:to-background">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center gap-4 text-center">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl text-sky-800 dark:text-sky-300">
-                Maqolalar
-              </h1>
-              <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                Barcha maqolalar va blog postlari to'plami
-              </p>
-            </div>
-          </div>
-        </section>
+  const [articles, setArticles] = useState<Article[]>([])
+  const [loading, setLoading] = useState(true)
 
-        <ArticlesList />
-      </div>
-      <Footer />
-    </main>
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const data = await fetchArticles()
+        setArticles(data)
+      } catch (error) {
+        console.error("Error fetching articles:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getArticles()
+  }, [])
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <motion.div
+        className="mb-12 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">Maqolalar</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">
+          Eng so'nggi va qiziqarli maqolalar to'plami. Web dasturlash, dizayn va texnologiyalar haqida.
+        </p>
+      </motion.div>
+
+      {loading ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="h-[350px] animate-pulse rounded-lg bg-muted" />
+          ))}
+        </div>
+      ) : (
+        <motion.div
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {articles.map((article) => (
+            <ArticleCard key={article._id} article={article} />
+          ))}
+        </motion.div>
+      )}
+    </div>
   )
 }
