@@ -165,19 +165,7 @@ export default function EditPortfolioPage() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="category">{t("portfolio.category")}</Label>
-                <Select value={formData.category} onValueChange={handleCategoryChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t("portfolio.selectCategory")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="web">{t("portfolio.categoryWeb")}</SelectItem>
-                    <SelectItem value="mobile">{t("portfolio.categoryMobile")}</SelectItem>
-                    <SelectItem value="design">{t("portfolio.categoryDesign")}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+
 
               <div className="space-y-2">
                 <Label htmlFor="image">{t("portfolio.imageUrl")}</Label>

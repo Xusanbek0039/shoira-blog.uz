@@ -101,7 +101,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://instagram.com/shoira_27_09_08"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
@@ -112,7 +112,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
@@ -142,15 +142,15 @@ export default function Footer() {
             <address className="not-italic">
               <p className="mb-2 flex items-center text-sm text-muted-foreground">
                 <Mail className="mr-2 h-4 w-4" />
-                Email: info@shoira-blog.uz
+                Email: abdurasulovashoira08@gmail.com
               </p>
               <p className="mb-2 flex items-center text-sm text-muted-foreground">
                 <Phone className="mr-2 h-4 w-4" />
-                Telefon: +998 90 123 45 67
+                Telefon: +998 9
               </p>
               <p className="flex items-center text-sm text-muted-foreground">
                 <MapPin className="mr-2 h-4 w-4" />
-                Address: Toshkent, O'zbekiston
+                Address: Jizzax, O'zbekiston
               </p>
             </address>
           </div>

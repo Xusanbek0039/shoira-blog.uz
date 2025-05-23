@@ -85,7 +85,7 @@ export default function ContactPage() {
                 <Mail className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">Email</p>
-                  <p className="text-sm text-muted-foreground">info@shoira-blog.uz</p>
+                  <p className="text-sm text-muted-foreground">abdurasulovashoira08@gmail.com</p>
                 </div>
               </div>
 
@@ -93,7 +93,7 @@ export default function ContactPage() {
                 <Phone className="h-5 w-5 text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">{t("contact.phone")}</p>
-                  <p className="text-sm text-muted-foreground">+998 90 123 45 67</p>
+                  <p className="text-sm text-muted-foreground">+998 9</p>
                 </div>
               </div>
 

@@ -70,11 +70,7 @@ export default function PortfolioPage() {
         </div>
       ) : (
         <Tabs defaultValue="web" className="mx-auto max-w-5xl">
-          <TabsList className="mb-8 grid w-full grid-cols-3">
-            <TabsTrigger value="web">{t("portfolio.categoryWeb")}</TabsTrigger>
-            <TabsTrigger value="mobile">{t("portfolio.categoryMobile")}</TabsTrigger>
-            <TabsTrigger value="design">{t("portfolio.categoryDesign")}</TabsTrigger>
-          </TabsList>
+
 
           {Object.entries(portfolioByCategory).map(([category, items]) => (
             <TabsContent key={category} value={category}>

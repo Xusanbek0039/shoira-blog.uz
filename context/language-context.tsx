@@ -14,6 +14,17 @@ const translations = {
   en: {
     // Locale
     locale: "en-US",
+
+    "portfolio.newItem":"New portfolio upload",
+    "portfolio.edit": "Edit",
+    "portfolio.delete":"Delete",
+    "portfolio.editItem":"Portfolio edit item",
+    "profile.portfolioTab":"Portfolios",
+    "portfolio.editDescription":"Portfolio edit page",
+    "portfolio.deleteItem":"Portfolio delete",
+    "portfolio.deleteConfirmation":"Do you want to delete this portfolio from your account?",
+
+    "portfolio.myItems":"My Portfolios",
     "auth.namePlaceholder":"Your full name!",
     "user.newPortfolio":"New portfolio upload",    
     // Navigation
@@ -203,7 +214,16 @@ const translations = {
   uz: {
     // Locale
     locale: "uz-UZ",
-    "user.newPortfolio":"Portfolio yuklash",    
+    "portfolio.myItems":"Mening portfellarim",
+    "user.newPortfolio":"Portfolio yuklash",
+    "portfolio.newItem":"Yangi portfel yuklash", 
+    "portfolio.edit": "Tahrirlash", 
+    "portfolio.delete":"O'chirish", 
+    "portfolio.editItem":"Portfelni tahrirlash elementi", 
+    "profile.portfolioTab":"Portfoliolar", 
+    "portfolio.editDescription":"Portfelni tahrirlash sahifasi", 
+    "portfolio.deleteItem":"Portfelni o'chirish", 
+    "portfolio.deleteConfirmation":"Ushbu portfelni hisobingizdan o'chirib tashlamoqchimisiz?",    
     // Portfolio
     "portfolio.createNew": "Yangi Portfolio Yaratish",
     "portfolio.createDescription": "Quyidagi formani to'ldirib yangi portfolio yarating",
@@ -394,6 +414,15 @@ const translations = {
   ru: {
     // Locale
     locale: "ru-RU",
+    "portfolio.newItem":"Загрузка нового портфолио",
+    "portfolio.edit": "Изменить",
+    "portfolio.delete":"Удалить",
+    "portfolio.editItem":"Элемент редактирования портфолио",
+    "profile.portfolioTab":"Портфели",
+    "portfolio.editDescription":"Страница редактирования портфолио",
+    "portfolio.deleteItem":"Удаление портфолио",
+    "portfolio.deleteConfirmation":"Хотите удалить это портфолио из своей учетной записи?",
+    "portfolio.myItems":"Мои портфели",
     "user.newPortfolio":"Новая загрузка портфолио",
     // Portfolio
     "portfolio.noCategoryItems":"Портфолио пусто, элементы не найдены!",

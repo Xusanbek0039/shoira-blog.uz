@@ -117,6 +117,8 @@ export default function UserPortfolio() {
         </Link>
       </div>
 
+
+
       {portfolioItems.length === 0 ? (
         <div className="rounded-lg border border-dashed p-8 text-center">
           <p className="text-muted-foreground">{t("portfolio.noItemsYet")}</p>

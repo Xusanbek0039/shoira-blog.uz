@@ -60,7 +60,6 @@ export default function Navbar() {
   const navItems = [
     { name: t("nav.home"), path: "/", icon: <Home className="h-4 w-4" /> },
     { name: t("nav.about"), path: "/about", icon: <User className="h-4 w-4" /> },
-    { name: t("nav.projects"), path: "/projects", icon: <Briefcase className="h-4 w-4" /> },
     { name: t("nav.articles"), path: "/articles", icon: <BookOpen className="h-4 w-4" /> },
     { name: t("nav.portfolio"), path: "/portfolio", icon: <Library className="h-4 w-4" /> },
     { name: t("nav.contact"), path: "/contact", icon: <Mail className="h-4 w-4" /> },
@@ -128,12 +127,7 @@ export default function Navbar() {
                     {t("user.newPortfolio")}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/notifications" className="flex items-center gap-2">
-                    <Bell className="h-4 w-4" />
-                    {t("user.notifications")}
-                  </Link>
-                </DropdownMenuItem>
+
                 <DropdownMenuSeparator />
                 <LogoutConfirmation />
               </DropdownMenuContent>
@@ -220,16 +214,7 @@ export default function Navbar() {
                       {t("user.newPortfolio")}
                     </Button>
                   </Link>
-                  <Link href="/notifications">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start bg-slate-800 text-slate-100 hover:bg-slate-700"
-                      size="lg"
-                    >
-                      <Bell className="mr-3 h-5 w-5" />
-                      {t("user.notifications")}
-                    </Button>
-                  </Link>
+
                   <LogoutConfirmation variant="mobile" />
                 </>
               ) : (
