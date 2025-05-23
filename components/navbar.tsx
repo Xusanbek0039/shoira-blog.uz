@@ -139,7 +139,7 @@ export default function Navbar() {
                   {t("user.login")}
                 </Button>
               </Link>
-              <Link href="/register">
+              <Link href="/">
                 <Button size="sm">{t("user.register")}</Button>
               </Link>
             </>
