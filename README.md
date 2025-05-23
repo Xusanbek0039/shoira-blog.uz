@@ -76,3 +76,82 @@ shoira-blog.uz/
 ├── locales/           # Til fayllari (uz.json, ru.json, en.json)
 ├── utils/             # Foydali funksiyalar
 └── services/          # API bilan ishlovchi fayllar
+# 📚 shoira-blog.uz
+
+`shoira-blog.uz` is a modern, secure, and interactive blog platform that allows users to write, edit, and share their own articles. The site is fully **mobile responsive**, supports **3 languages** (Uzbek, Russian, English), and offers a **Dark / Light mode** for user convenience.
+
+![Project preview](https://xusanbek0039.github.io/shoira-blog.uz/images/aboud-for-github.png)
+
+## 🌐 Live Links
+
+- 🔗 Website: [https://shoira-blog.uz](https://shoira-blog.uz)
+- 🔗 API: [https://shoira-blog-uz-api.vercel.app](https://shoira-blog-uz-api.vercel.app)
+
+## 🚀 Key Features
+
+### 🔤 1. Multilingual Support
+
+`shoira-blog.uz` supports **three languages**:
+
+- 🇺🇿 Uzbek
+- 🇷🇺 Russian
+- 🇬🇧 English
+
+Users can change the language from anywhere on the site, and content will update automatically based on their selection.
+
+---
+
+### 🌗 2. Dark / Light Mode
+
+Users can switch between **dark** and **light** themes according to their preference. The selected theme is saved in the browser for future visits.
+
+---
+
+### 📝 3. Article Management
+
+- Users can **register and log in** to write articles.
+- Each article includes:
+  - Title
+  - Content
+  - Image
+  - Author and publish date
+
+🔒 Articles are stored in a **MongoDB** database and managed via a RESTful API:  
+API Endpoint: [https://shoira-blog-uz-api.vercel.app](https://shoira-blog-uz-api.vercel.app)
+
+---
+
+### 👨‍🎓 4. User Dashboard
+
+Registered users have access to:
+
+- 🔐 Profile management
+- 🧾 Viewing and editing personal articles
+- 🧑‍💻 **Portfolio section** – users can showcase their personal projects
+- 📜 Adding certificates or achievements (planned for future versions)
+
+---
+
+## 🧰 Technologies Used
+
+- **Frontend**: TypeScript, React, Next.js
+- **Styling**: Tailwind CSS + Framer Motion (for animations)
+- **Icons**: Lucide Icons
+- **Internationalization**: `i18next`
+- **Database**: MongoDB
+- **Authentication**: JWT-based token system
+
+---
+
+## 📂 Project Structure Example
+
+```bash
+shoira-blog.uz/
+├── pages/             # Pages (home, article, login, register)
+├── components/        # UI components (Navbar, Footer, Modals)
+├── public/            # Images and icons
+├── styles/            # Tailwind configuration
+├── locales/           # Translation files (uz.json, ru.json, en.json)
+├── utils/             # Utility functions
+└── services/          # API handling functions
+
