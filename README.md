@@ -66,16 +66,6 @@ Ro‘yxatdan o‘tgan foydalanuvchilar quyidagi imkoniyatlarga ega:
 ---
 
 ## 📂 Loyihaning struktura namunasi
-
-```bash
-shoira-blog.uz/
-├── pages/             # Sahifalar (home, article, login, register)
-├── components/        # UI komponentlar (Navbar, Footer, Modallar)
-├── public/            # Rasm va ikonlar
-├── styles/            # Tailwind konfiguratsiyasi
-├── locales/           # Til fayllari (uz.json, ru.json, en.json)
-├── utils/             # Foydali funksiyalar
-└── services/          # API bilan ishlovchi fayllar
 # 📚 shoira-blog.uz
 
 `shoira-blog.uz` is a modern, secure, and interactive blog platform that allows users to write, edit, and share their own articles. The site is fully **mobile responsive**, supports **3 languages** (Uzbek, Russian, English), and offers a **Dark / Light mode** for user convenience.
@@ -154,4 +144,21 @@ shoira-blog.uz/
 ├── locales/           # Translation files (uz.json, ru.json, en.json)
 ├── utils/             # Utility functions
 └── services/          # API handling functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
