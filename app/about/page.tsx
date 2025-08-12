@@ -78,7 +78,7 @@ export default function AboutPage() {
         {/* Rasm */}
         <div className="w-full max-h-[590px] flex-shrink-0 overflow-hidden rounded-xl border border-gray-200 shadow-md dark:border-gray-700 md:w-[420px]">
           <img
-            src="https://github.com/Xusanbek0039/shoira-blog.uz/blob/main/images/shoira_photo.png?raw=true"
+            src="https://github.com/Xusanbek0039/-blog.uz/blob/main/images/shoira_photo.png?raw=true"
             alt={content.title}
             className="h-auto w-full object-cover"
             loading="lazy"
