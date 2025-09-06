@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { io, Socket } from "socket.io-client";
 
 const API_URL = "https://shoira-blog-uz-api.onrender.com/api/chat";
 const SECRET_PASSWORD = "Ketamiz";
+const SOCKET_URL = "https://shoira-blog-uz-api.onrender.com"; // Server URL
 
 interface ChatMessage {
   _id: string;
@@ -38,6 +40,7 @@ export default function ChatPage() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const socketRef = useRef<Socket | null>(null);
 
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const myName = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
@@ -58,13 +61,25 @@ export default function ChatPage() {
     }
   };
 
-  // Avtomatik xabarlarni yangilab turish
+  // Socket.io ulanish
   useEffect(() => {
-    if (isAuthorized) {
-      fetchMessages();
-      const interval = setInterval(fetchMessages, 5000);
-      return () => clearInterval(interval);
-    }
+    if (!isAuthorized) return;
+
+    socketRef.current = io(SOCKET_URL);
+
+    socketRef.current.on("connect", () => {
+      console.log("Socket.io ulandi");
+    });
+
+    socketRef.current.on("newMessage", (msg: ChatMessage) => {
+      setMessages((prev) => [...prev, msg]);
+    });
+
+    fetchMessages();
+
+    return () => {
+      socketRef.current?.disconnect();
+    };
   }, [isAuthorized]);
 
   useEffect(() => {
@@ -73,7 +88,7 @@ export default function ChatPage() {
 
   // Yangi xabar yuborish
   const sendMessage = async () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !socketRef.current) return;
 
     const tempMessage: ChatMessage = {
       _id: `temp-${Date.now()}`,
@@ -82,21 +97,16 @@ export default function ChatPage() {
       createdAt: new Date().toISOString(),
     };
 
-    // Xabarni vaqtinchalik qo‘shamiz
     setMessages((prev) => [...prev, tempMessage]);
     setNewMessage("");
 
     try {
-      const res = await axios.post(
+      await axios.post(
         API_URL,
         { message: tempMessage.message },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      // Serverdan haqiqiy ma'lumot kelgach yangilaymiz
-      setMessages((prev) =>
-        prev.map((msg) => (msg._id === tempMessage._id ? res.data : msg))
-      );
+      socketRef.current.emit("sendMessage", tempMessage);
     } catch (error) {
       console.error("Xabar yuborishda xato:", error);
       setMessages((prev) => prev.filter((msg) => msg._id !== tempMessage._id));
@@ -143,7 +153,7 @@ export default function ChatPage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-extrabold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
-        💬 Secure Chat
+        💬 Secure Chat (Socket.io)
       </h1>
       <p className="text-center text-xs text-gray-400 mb-4">
         ⚠️ Xabarlar 24 soat ichida avtomatik o‘chiriladi
@@ -184,11 +194,6 @@ export default function ChatPage() {
             <div ref={chatEndRef}></div>
           </div>
         )}
-
-        {/* Eslatma */}
-        <div className="text-center text-xs text-gray-400 mt-2">
-          24 soatdan eski xabarlar ko‘rinmaydi • Enter → yuborish • Shift+Enter → yangi qator
-        </div>
 
         {/* Xabar yuborish joyi */}
         <div className="flex items-center mt-4 bg-white rounded-full shadow-lg border border-gray-200 px-3 py-2 gap-2">
