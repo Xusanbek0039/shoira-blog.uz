@@ -12,7 +12,7 @@ interface ChatMessage {
   createdAt?: string;
 }
 
-// Foydalanuvchiga rang berish uchun funksiya
+// Har bir foydalanuvchi uchun fon rangini tanlaymiz
 function getUserColor(userName: string) {
   const colors = [
     "bg-gradient-to-r from-pink-400 to-pink-500 text-white",
@@ -30,7 +30,6 @@ function getUserColor(userName: string) {
   }
   return colors[sum % colors.length];
 }
-
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -59,27 +58,48 @@ export default function ChatPage() {
     }
   };
 
+  // Avtomatik xabarlarni yangilab turish
   useEffect(() => {
-    if (isAuthorized) fetchMessages();
+    if (isAuthorized) {
+      fetchMessages();
+      const interval = setInterval(fetchMessages, 5000);
+      return () => clearInterval(interval);
+    }
   }, [isAuthorized]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Xabar yuborish
+  // Yangi xabar yuborish
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
+
+    const tempMessage: ChatMessage = {
+      _id: `temp-${Date.now()}`,
+      userName: myName || "Anonim",
+      message: newMessage,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Xabarni vaqtinchalik qo‘shamiz
+    setMessages((prev) => [...prev, tempMessage]);
+    setNewMessage("");
+
     try {
-      await axios.post(
+      const res = await axios.post(
         API_URL,
-        { message: newMessage },
+        { message: tempMessage.message },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setNewMessage("");
-      fetchMessages();
+
+      // Serverdan haqiqiy ma'lumot kelgach yangilaymiz
+      setMessages((prev) =>
+        prev.map((msg) => (msg._id === tempMessage._id ? res.data : msg))
+      );
     } catch (error) {
       console.error("Xabar yuborishda xato:", error);
+      setMessages((prev) => prev.filter((msg) => msg._id !== tempMessage._id));
     }
   };
 
@@ -137,20 +157,20 @@ export default function ChatPage() {
             {messages.length > 0 ? (
               messages.map((msg) => {
                 const isMine = msg.userName === myName;
-                    const userColor = isMine 
-                      ? "bg-gradient-to-r from-blue-600 to-purple-700 text-white"
-                      : getUserColor(msg.userName || "Anonim");
+                const userColor = isMine
+                  ? "bg-gradient-to-r from-blue-600 to-purple-700 text-white"
+                  : getUserColor(msg.userName || "Anonim");
                 return (
                   <div key={msg._id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
                     <div className={`max-w-[70%] p-3 rounded-2xl text-sm leading-relaxed shadow ${userColor}`}>
                       {!isMine && (
-                        <div className="font-semibold text-gray-700 text-xs mb-1">
+                        <div className="font-semibold text-gray-100 text-xs mb-1">
                           {msg.userName || "Anonim"}
                         </div>
                       )}
                       <div className="text-[15px]">{msg.message}</div>
                       {msg.createdAt && (
-                        <div className="text-[10px] mt-1 text-gray-600">
+                        <div className="text-[10px] mt-1 text-gray-200">
                           {new Date(msg.createdAt).toLocaleTimeString()}
                         </div>
                       )}
@@ -165,12 +185,12 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* Pastdagi eslatma */}
+        {/* Eslatma */}
         <div className="text-center text-xs text-gray-400 mt-2">
           24 soatdan eski xabarlar ko‘rinmaydi • Enter → yuborish • Shift+Enter → yangi qator
         </div>
 
-        {/* Yangi chiroyli input va button qismi */}
+        {/* Xabar yuborish joyi */}
         <div className="flex items-center mt-4 bg-white rounded-full shadow-lg border border-gray-200 px-3 py-2 gap-2">
           <textarea
             value={newMessage}
