@@ -3,13 +3,20 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 const API_URL = "https://shoira-blog-uz-api.onrender.com/api/chat";
-const SECRET_PASSWORD = "Ketamiz"; // Chatga kirish paroli
+const SECRET_PASSWORD = "Ketamiz"; // Chat paroli
+
+interface ChatMessage {
+  _id: string;
+  userName: string;
+  message: string;
+  createdAt?: string;
+}
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<
-    { _id: string; user: { name: string }; message: string; createdAt?: string }[]
-  >([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [editMessageId, setEditMessageId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
   const [loading, setLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
@@ -54,6 +61,29 @@ export default function ChatPage() {
       fetchMessages();
     } catch (error) {
       console.error("Xabar yuborishda xato:", error);
+    }
+  };
+
+  // Xabarni tahrirlashni boshlash
+  const startEditing = (id: string, text: string) => {
+    setEditMessageId(id);
+    setEditText(text);
+  };
+
+  // Tahrirlangan xabarni saqlash
+  const saveEditedMessage = async () => {
+    if (!editText.trim() || !editMessageId) return;
+    try {
+      await axios.put(
+        `${API_URL}/${editMessageId}`,
+        { message: editText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setEditMessageId(null);
+      setEditText("");
+      fetchMessages();
+    } catch (error) {
+      console.error("Xabarni tahrirlashda xato:", error);
     }
   };
 
@@ -119,50 +149,58 @@ export default function ChatPage() {
         ) : (
           <div className="flex-1 overflow-y-auto space-y-4 p-3 rounded-lg">
             {messages.length > 0 ? (
-              messages.map((msg, i) => {
-                const isMine = msg.user?.name === "Siz";
+              messages.map((msg) => {
+                const myName = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
+                const isMine = msg.userName === myName;
                 return (
-                  <div
-                    key={msg._id || i}
-                    className={`flex items-end gap-2 ${isMine ? "justify-end" : "justify-start"}`}
-                  >
+                  <div key={msg._id} className={`flex items-end gap-2 ${isMine ? "justify-end" : "justify-start"}`}>
                     {!isMine && (
                       <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-teal-500 text-white flex items-center justify-center text-sm font-bold shadow">
-                        {msg.user?.name?.charAt(0).toUpperCase() || "?"}
+                        {msg.userName?.charAt(0).toUpperCase() || "?"}
                       </div>
                     )}
 
-                    <div
-                      className={`max-w-[70%] p-3 rounded-2xl text-sm leading-relaxed shadow transition ${
-                        isMine
+                    <div className={`max-w-[70%] p-3 rounded-2xl text-sm leading-relaxed shadow transition ${isMine
                           ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-br-none"
                           : "bg-white border border-gray-200 rounded-bl-none text-gray-800"
-                      }`}
-                    >
-                      {!isMine && (
-                        <div className="font-semibold text-gray-600 text-xs mb-1">
-                          {msg.user?.name || "Anonim"}
+                        }`}>
+                      {!isMine && <div className="font-semibold text-gray-600 text-xs mb-1">{msg.userName || "Anonim"}</div>}
+
+                      {editMessageId === msg._id ? (
+                        <div>
+                          <input
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            className="border p-1 rounded w-full text-black"
+                          />
+                          <button
+                            onClick={saveEditedMessage}
+                            className="bg-green-500 text-white px-2 py-1 rounded mt-1 text-xs"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      ) : (
+                        <div className={`${isMine ? "text-gray-100" : "text-gray-800"} text-[15px]`}>
+                          {msg.message}
                         </div>
                       )}
-                      <div className={`${isMine ? "text-gray-100" : "text-gray-800"} text-[15px]`}>
-                        {msg.message}
-                      </div>
-                      {msg.createdAt && (
-                        <div
-                          className={`text-[10px] mt-1 ${
-                            isMine ? "text-gray-200" : "text-gray-400"
-                          }`}
+
+                      {isMine && editMessageId !== msg._id && (
+                        <button
+                          onClick={() => startEditing(msg._id, msg.message)}
+                          className="text-[10px] text-yellow-300 underline ml-2"
                         >
+                          Edit
+                        </button>
+                      )}
+
+                      {msg.createdAt && (
+                        <div className={`text-[10px] mt-1 ${isMine ? "text-gray-200" : "text-gray-400"}`}>
                           {new Date(msg.createdAt).toLocaleTimeString()}
                         </div>
                       )}
                     </div>
-
-                    {isMine && (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white flex items-center justify-center text-sm font-bold shadow">
-                        {msg.user?.name?.charAt(0).toUpperCase() || "S"}
-                      </div>
-                    )}
                   </div>
                 );
               })
