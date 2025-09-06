@@ -110,12 +110,12 @@ export default function ChatPage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-extrabold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
-        💬 Modern Chat
+        💬 Secure chat
       </h1>
 
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl rounded-3xl p-4 h-[550px] flex flex-col border border-gray-200">
         {loading ? (
-          <p className="text-center text-gray-500">Yuklanmoqda...</p>
+          <p className="text-center text-gray-500">Loading...</p>
         ) : (
           <div className="flex-1 overflow-y-auto space-y-4 p-3 rounded-lg">
             {messages.length > 0 ? (
@@ -167,7 +167,7 @@ export default function ChatPage() {
                 );
               })
             ) : (
-              <p className="text-center text-gray-400 italic">Hozircha xabarlar yo‘q</p>
+              <p className="text-center text-gray-400 italic">No messages yet.</p>
             )}
             <div ref={chatEndRef}></div>
           </div>
@@ -184,7 +184,7 @@ export default function ChatPage() {
                 sendMessage();
               }
             }}
-            placeholder="Xabar yozing..."
+            placeholder="Write a message..."
             className="flex-1 border rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm bg-white shadow-sm placeholder-gray-400 text-gray-800"
           />
           <button
