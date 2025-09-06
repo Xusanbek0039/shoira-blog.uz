@@ -9,7 +9,7 @@ export default function ChatPage() {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // JWT tokenni localStorage'dan olish
+  // Token olish
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // Xabarlarni olish
@@ -30,7 +30,7 @@ export default function ChatPage() {
     fetchMessages();
   }, []);
 
-  // Yangi xabar yuborish
+  // Xabar yuborish
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
     try {
@@ -48,46 +48,57 @@ export default function ChatPage() {
 
   if (!token) {
     return (
-      <div className="p-6 text-center text-red-600">
+      <div className="p-6 text-center text-red-600 text-lg">
         Chatdan foydalanish uchun avval login qiling!
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Chat sahifasi</h1>
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4 text-center text-blue-600">💬 Real-Time Chat</h1>
 
-      {loading ? (
-        <p>Yuklanmoqda...</p>
-      ) : (
-        <div className="border rounded-lg p-4 h-80 overflow-y-auto bg-gray-50">
-          {messages.length > 0 ? (
-            messages.map((msg) => (
-              <div key={msg._id} className="mb-2">
-                <strong>{msg.user?.name || "Anonim"}:</strong> {msg.message}
-              </div>
-            ))
-          ) : (
-            <p>Hozircha xabarlar yo‘q</p>
-          )}
+      <div className="bg-white shadow-lg rounded-2xl p-4 h-[450px] flex flex-col">
+        {loading ? (
+          <p className="text-center text-gray-500">Yuklanmoqda...</p>
+        ) : (
+          <div className="flex-1 overflow-y-auto space-y-3 p-2 bg-gray-50 rounded-lg">
+            {messages.length > 0 ? (
+              messages.map((msg) => (
+                <div
+                  key={msg._id}
+                  className="flex items-start gap-2 p-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition"
+                >
+                  <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                    {msg.user?.name?.charAt(0).toUpperCase() || "?"}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-800">{msg.user?.name || "Anonim"}</div>
+                    <div className="text-gray-700">{msg.message}</div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400">Hozircha xabarlar yo‘q</p>
+            )}
+          </div>
+        )}
+
+        <div className="flex mt-3 gap-2">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Xabar yozing..."
+            className="flex-1 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition"
+          >
+            Yuborish
+          </button>
         </div>
-      )}
-
-      <div className="flex mt-4 gap-2">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Xabar yozing..."
-          className="flex-1 border rounded p-2"
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 rounded"
-        >
-          Yuborish
-        </button>
       </div>
     </div>
   );
