@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://shoira-blog.uz/sitemap.xml
