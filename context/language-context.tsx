@@ -14,7 +14,8 @@ const translations = {
   en: {
     // Locale
     locale: "en-US",
-
+    "portfolio.noItemsYet":"No portfolio items yet",
+    "portfolio.createItem":"Create portfolio item",
     "portfolio.newItem":"New portfolio upload",
     "portfolio.edit": "Edit",
     "portfolio.delete":"Delete",
@@ -214,6 +215,9 @@ const translations = {
   uz: {
     // Locale
     locale: "uz-UZ",
+    "portfolio.noItemsYet":"Hozircha portfel elementlari mavjud emas",
+    "portfolio.createItem":"Portfel elementi yaratish",
+
     "portfolio.myItems":"Mening portfellarim",
     "user.newPortfolio":"Portfolio yuklash",
     "portfolio.newItem":"Yangi portfel yuklash", 
@@ -415,6 +419,8 @@ const translations = {
     // Locale
     locale: "ru-RU",
     "portfolio.newItem":"Загрузка нового портфолио",
+    "portfolio.noItemsYet":"Еще нет элементов портфолио",
+    "portfolio.createItem":"Создать элемент портфолио",
     "portfolio.edit": "Изменить",
     "portfolio.delete":"Удалить",
     "portfolio.editItem":"Элемент редактирования портфолио",
