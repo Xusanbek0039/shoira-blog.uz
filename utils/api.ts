@@ -1,7 +1,7 @@
 import axios from "axios"
 
 // API URL - backend server manzili
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://shoira-blog-uz-api.onrender.com"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://shoira-blog-uz-api-flame.vercel.app/"
 
 console.log("Using API URL:", API_URL)
 
