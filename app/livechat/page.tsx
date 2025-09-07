@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-const API_URL = "https://shoira-blog-uz-api-flame.vercel.app/";
+const API_URL = "https://shoira-blog-uz-api-flame.vercel.app/api/chat";
 const SECRET_PASSWORD = "Ketamiz";
 
 interface ChatMessage {
